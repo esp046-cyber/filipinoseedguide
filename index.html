@@ -1,0 +1,3806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filipino Seed Planting Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 1%;
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            padding: 10px 1%;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            margin-bottom: 1%;
+        }
+        .seed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1%;
+        }
+        .seed-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .seed-card:active {
+            transform: scale(0.98);
+        }
+        .seed-icon {
+            font-size: 40px;
+            text-align: center;
+            margin: 8px 0;
+        }
+        .seed-name {
+            font-weight: bold;
+            font-size: 14px;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .seed-tagalog {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+            font-style: italic;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .modal-content {
+            background: #fff;
+            margin: 2% auto;
+            padding: 1%;
+            width: 95%;
+            border-radius: 12px;
+            max-width: 600px;
+        }
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #667eea;
+        }
+        .modal h2 {
+            color: #667eea;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        .modal h3 {
+            color: #764ba2;
+            font-size: 16px;
+            margin: 8px 0 4px 0;
+        }
+        .modal p, .modal ul {
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 4px 0;
+        }
+        .modal ul {
+            margin-left: 15px;
+        }
+        .tip-box {
+            background: #f0f4ff;
+            padding: 1%;
+            border-radius: 8px;
+            margin: 8px 0;
+            border-left: 4px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 Filipino Backyard Seed Guide</h1>
+        
+        <div class="seed-grid" id="seedGrid"></div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const seeds = [
+            {
+                name: "Tomato",
+                tagalog: "Kamatis",
+                icon: "🍅",
+                season: "Year-round (best: Nov-Apr)",
+                spacing: "50-60cm apart",
+                depth: "0.5cm deep",
+                germination: "7-14 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, keep soil moist but not waterlogged",
+                soil: "Rich, well-draining with pH 6.0-6.8",
+                container: "20-30L pot minimum",
+                tips: [
+                    "Soak seeds 2 hours before planting",
+                    "Plant in well-draining soil",
+                    "Water morning to avoid fungal disease",
+                    "Use bamboo stakes for support",
+                    "Remove suckers between main stem and branches",
+                    "Mulch with dried leaves to retain moisture"
+                ],
+                care: "Water daily, add compost monthly, prune lower leaves",
+                pests: "Common pests: aphids, fruit worms. Spray neem oil solution",
+                companion: "Plant with basil, marigolds to repel pests"
+            },
+            {
+                name: "Eggplant",
+                tagalog: "Talong",
+                icon: "🍆",
+                season: "Year-round",
+                spacing: "60cm apart",
+                depth: "0.5cm deep",
+                germination: "10-15 days",
+                harvest: "70-90 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2 days, increase during fruiting",
+                soil: "Loamy, well-draining with organic matter",
+                container: "25L pot minimum",
+                tips: [
+                    "Start in seedling trays first",
+                    "Transplant after 4 weeks",
+                    "Thrives in hot weather",
+                    "Mulch soil to retain moisture",
+                    "Pinch off first flowers for stronger plant",
+                    "Harvest when skin is shiny and firm"
+                ],
+                care: "Water regularly, fertilize every 2 weeks, watch for pests",
+                pests: "Watch for flea beetles, fruit borers. Hand-pick or use organic spray",
+                companion: "Plant with beans, marigolds. Avoid with tomatoes"
+            },
+            {
+                name: "String Beans",
+                tagalog: "Sitaw",
+                icon: "🫘",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "50-60 days",
+                sunlight: "6 hours full sun",
+                water: "Every 2-3 days, avoid overwatering",
+                soil: "Well-draining, not too rich in nitrogen",
+                container: "15L pot with trellis",
+                tips: [
+                    "Direct sow in garden bed",
+                    "Install trellis before planting",
+                    "Pick pods young for best taste",
+                    "Harvest regularly to encourage more pods",
+                    "Plant 2-3 seeds per hole, thin to strongest",
+                    "Rotate crops yearly to prevent disease"
+                ],
+                care: "Water every 2-3 days, minimal fertilizer needed",
+                pests: "Watch for bean beetles, aphids. Spray with garlic water",
+                companion: "Plant with corn, carrots. Avoid with onions"
+            },
+            {
+                name: "Okra",
+                tagalog: "Okra",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "40-50cm apart",
+                depth: "2cm deep",
+                germination: "7-14 days",
+                harvest: "50-65 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, drought-tolerant once established",
+                soil: "Well-draining, tolerates poor soil",
+                container: "20L pot minimum, deep pot preferred",
+                tips: [
+                    "Soak seeds overnight",
+                    "Plant in full sun location",
+                    "Harvest when 7-10cm long",
+                    "Wear gloves when harvesting",
+                    "Pick daily for continuous production",
+                    "Cut, don't pull pods to avoid plant damage"
+                ],
+                care: "Drought-tolerant, water every 3-4 days",
+                pests: "Watch for aphids, stink bugs. Use neem oil spray",
+                companion: "Plant with peppers, eggplant. Good companion for most vegetables"
+            },
+            {
+                name: "Bitter Gourd",
+                tagalog: "Ampalaya",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "100cm apart",
+                depth: "2cm deep",
+                germination: "8-12 days",
+                harvest: "55-70 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "30L pot with strong trellis",
+                tips: [
+                    "Needs strong trellis support",
+                    "Soak seeds 24 hours before planting",
+                    "Harvest while still green",
+                    "Regular harvesting promotes more fruit",
+                    "Hand-pollinate flowers for better fruit set",
+                    "Prune excess vines for better air circulation"
+                ],
+                care: "Water daily, feed with organic fertilizer weekly",
+                pests: "Watch for fruit flies, melon fly. Use fruit fly traps",
+                companion: "Plant with corn, radish. Keep away from potatoes"
+            },
+            {
+                name: "Chili Pepper",
+                tagalog: "Sili",
+                icon: "🌶️",
+                season: "Year-round (best: dry season)",
+                spacing: "40cm apart",
+                depth: "0.5cm deep",
+                germination: "10-20 days",
+                harvest: "70-90 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, reduce when fruiting for spicier peppers",
+                soil: "Well-draining, moderately rich",
+                container: "15L pot minimum",
+                tips: [
+                    "Start indoors in seed trays",
+                    "Transplant when 10cm tall",
+                    "Pinch first flowers for bushy plant",
+                    "Harvest when fully colored",
+                    "Use gloves when handling ripe peppers",
+                    "Dry peppers by hanging in airy location"
+                ],
+                care: "Water when soil is dry, full sun exposure",
+                pests: "Watch for aphids, whiteflies. Spray with soapy water",
+                companion: "Plant with basil, carrots. Keep away from beans"
+            },
+            {
+                name: "Cucumber",
+                tagalog: "Pipino",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "60cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "50-70 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, needs consistent moisture for crisp fruit",
+                soil: "Rich, well-draining with compost, pH 6.0-7.0",
+                container: "20L pot with trellis",
+                tips: [
+                    "Plant in mounds for better drainage",
+                    "Use trellis to save space",
+                    "Harvest daily when ready",
+                    "Keep soil consistently moist",
+                    "Pick cucumbers young for best flavor",
+                    "Remove yellow leaves to prevent disease spread"
+                ],
+                care: "Water daily, mulch heavily, fertilize bi-weekly",
+                pests: "Watch for cucumber beetles, powdery mildew. Spray neem oil",
+                companion: "Plant with beans, corn, radish. Avoid with sage"
+            },
+            {
+                name: "Pechay",
+                tagalog: "Pechay",
+                icon: "🥬",
+                season: "Year-round (best: cool season)",
+                spacing: "20cm apart",
+                depth: "0.5cm deep",
+                germination: "5-7 days",
+                harvest: "30-40 days",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, keep soil consistently moist",
+                soil: "Rich, moisture-retaining with compost",
+                container: "10L pot, shallow is fine",
+                tips: [
+                    "Quick growing leafy vegetable",
+                    "Plant in partial shade",
+                    "Harvest outer leaves first",
+                    "Replant every month for continuous supply",
+                    "Add organic fertilizer weekly",
+                    "Best grown during cooler months"
+                ],
+                care: "Keep soil moist, add compost before planting",
+                pests: "Watch for caterpillars, aphids. Hand-pick or use BT spray",
+                companion: "Plant with lettuce, herbs. Good shade for radishes"
+            },
+            {
+                name: "Radish",
+                tagalog: "Labanos",
+                icon: "🥕",
+                season: "Year-round (best: cool months)",
+                spacing: "10cm apart",
+                depth: "1cm deep",
+                germination: "4-6 days",
+                harvest: "25-30 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Every 2 days, consistent moisture for tender roots",
+                soil: "Loose, well-draining, remove stones",
+                container: "15cm deep pot minimum",
+                tips: [
+                    "One of the fastest vegetables to grow",
+                    "Direct sow, don't transplant",
+                    "Thin seedlings to proper spacing",
+                    "Harvest promptly when ready",
+                    "Perfect beginner vegetable",
+                    "Plant in succession every 2 weeks"
+                ],
+                care: "Keep soil moist, grows in most soil types",
+                pests: "Watch for flea beetles, root maggots. Use row covers",
+                companion: "Plant with lettuce, carrots. Avoid with hyssop"
+            },
+            {
+                name: "Mustard Greens",
+                tagalog: "Mustasa",
+                icon: "🥬",
+                season: "Year-round",
+                spacing: "15-20cm apart",
+                depth: "0.5cm deep",
+                germination: "5-7 days",
+                harvest: "30-45 days",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, prefers consistent moisture",
+                soil: "Rich, well-draining with organic matter",
+                container: "10L pot minimum",
+                tips: [
+                    "Tolerates heat better than other greens",
+                    "Harvest young leaves for mild flavor",
+                    "Can be cut-and-come-again crop",
+                    "Plant in succession every 2 weeks",
+                    "Older leaves become spicier",
+                    "Great in soups and stir-fries"
+                ],
+                care: "Water daily, prefers rich soil",
+                pests: "Watch for cabbage worms, flea beetles. Use neem spray",
+                companion: "Plant with onions, aromatic herbs. Avoid with strawberries"
+            },
+            {
+                name: "Lettuce",
+                tagalog: "Lettuce",
+                icon: "🥗",
+                season: "Oct-Feb (cool season)",
+                spacing: "20-25cm apart",
+                depth: "0.5cm deep",
+                germination: "7-10 days",
+                harvest: "45-55 days",
+                sunlight: "4-6 hours morning sun",
+                water: "Daily, keep soil consistently moist",
+                soil: "Rich, well-draining with compost",
+                container: "10L pot minimum, shallow is fine",
+                tips: [
+                    "Grows best in cool weather",
+                    "Provide afternoon shade",
+                    "Harvest outer leaves continuously",
+                    "Bolts in hot weather",
+                    "Sow seeds in evening for better germination",
+                    "Refrigerate seeds before planting in hot season"
+                ],
+                care: "Keep soil consistently moist, morning sun only",
+                pests: "Watch for slugs, snails, aphids. Use beer traps for slugs",
+                companion: "Plant with carrots, radish, strawberries. Avoid with parsley"
+            },
+            {
+                name: "Bell Pepper",
+                tagalog: "Bell Pepper",
+                icon: "🫑",
+                season: "Year-round (best: dry season)",
+                spacing: "45cm apart",
+                depth: "0.5cm deep",
+                germination: "10-21 days",
+                harvest: "70-90 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2 days, consistent moisture for best fruit",
+                soil: "Rich, well-draining with compost, pH 6.0-6.8",
+                container: "20L pot minimum with support",
+                tips: [
+                    "Start in seedling trays",
+                    "Transplant after 6 weeks",
+                    "Green peppers mature to red/yellow",
+                    "Stake plants for support",
+                    "Leave peppers on plant longer for sweeter flavor",
+                    "Calcium supplement prevents blossom end rot"
+                ],
+                care: "Regular watering, fertilize monthly",
+                pests: "Watch for aphids, pepper weevils. Use insecticidal soap",
+                companion: "Plant with basil, onions. Keep away from fennel"
+            },
+            {
+                name: "Kangkong",
+                tagalog: "Kangkong",
+                icon: "🌿",
+                season: "Year-round (best: wet season)",
+                spacing: "15cm apart",
+                depth: "1cm deep",
+                germination: "5-7 days",
+                harvest: "25-30 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily or grow in shallow water",
+                soil: "Moist to wet, rich soil or hydroponic",
+                container: "Wide shallow container, can grow in water",
+                tips: [
+                    "Fastest growing leafy vegetable",
+                    "Can grow in water or soil",
+                    "Harvest by cutting stems above roots",
+                    "Regrows quickly after cutting",
+                    "Perfect for beginners",
+                    "Plant cuttings directly in soil or water"
+                ],
+                care: "Keep very moist or submerged, harvest every 2-3 weeks",
+                pests: "Watch for leaf miners, aphids. Generally pest-resistant",
+                companion: "Grows well with most vegetables, good water indicator"
+            },
+            {
+                name: "Squash",
+                tagalog: "Kalabasa",
+                icon: "🎃",
+                season: "Year-round",
+                spacing: "100cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "85-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, deep watering",
+                soil: "Rich, well-draining, add compost",
+                container: "40L+ pot, needs large space",
+                tips: [
+                    "Needs large growing space",
+                    "Plant in mounds for drainage",
+                    "Hand-pollinate flowers in morning",
+                    "Harvest when skin is hard",
+                    "Remove leaves showing powdery mildew",
+                    "Can grow on trellis to save space"
+                ],
+                care: "Water deeply twice weekly, fertilize monthly",
+                pests: "Watch for squash bugs, vine borers. Hand-pick eggs",
+                companion: "Plant with corn, beans (three sisters). Avoid potatoes"
+            },
+            {
+                name: "Onion",
+                tagalog: "Sibuyas",
+                icon: "🧅",
+                season: "Oct-Feb (cool season)",
+                spacing: "10-15cm apart",
+                depth: "1cm deep",
+                germination: "10-14 days",
+                harvest: "90-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, reduce before harvest",
+                soil: "Loose, well-draining, pH 6.0-7.0",
+                container: "20cm deep pot minimum",
+                tips: [
+                    "Plant sets or transplants for faster growth",
+                    "Green tops indicate active growth",
+                    "Stop watering when tops fall over",
+                    "Cure in dry area for 2 weeks after harvest",
+                    "Pull weeds regularly, onions don't compete well",
+                    "Plant in full sun for best bulb development"
+                ],
+                care: "Regular watering, light fertilizer, keep weed-free",
+                pests: "Watch for onion thrips, maggots. Use row covers",
+                companion: "Plant with carrots, tomatoes. Repels many pests"
+            },
+            {
+                name: "Garlic",
+                tagalog: "Bawang",
+                icon: "🧄",
+                season: "Oct-Jan (cool season)",
+                spacing: "10cm apart",
+                depth: "3-5cm deep",
+                germination: "14-21 days",
+                harvest: "120-150 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, stop 2 weeks before harvest",
+                soil: "Loose, well-draining, rich in organic matter",
+                container: "20cm deep pot minimum",
+                tips: [
+                    "Plant individual cloves, pointy end up",
+                    "Use locally adapted varieties",
+                    "Remove flower stalks (scapes) for bigger bulbs",
+                    "Harvest when half the leaves turn brown",
+                    "Cure in shaded, airy spot for 3-4 weeks",
+                    "Save biggest bulbs for next planting"
+                ],
+                care: "Moderate watering, mulch well, fertilize at planting",
+                pests: "Generally pest-resistant. Watch for rust fungus",
+                companion: "Plant with roses, fruit trees. Natural pest repellent"
+            },
+            {
+                name: "Ginger",
+                tagalog: "Luya",
+                icon: "🫚",
+                season: "Year-round (best: start of wet season)",
+                spacing: "20-25cm apart",
+                depth: "5cm deep",
+                germination: "14-21 days",
+                harvest: "8-10 months",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, loose, well-draining with compost",
+                container: "30cm deep, wide pot",
+                tips: [
+                    "Plant rhizome pieces with growth buds",
+                    "Soak rhizomes overnight before planting",
+                    "Prefers shade in hot climates",
+                    "Harvest young for milder flavor",
+                    "Leave some rhizomes for next season",
+                    "Yellow leaves indicate ready to harvest"
+                ],
+                care: "Keep soil moist, add compost monthly, provide shade",
+                pests: "Watch for root rot in waterlogged soil. Generally pest-free",
+                companion: "Grows well under fruit trees, with turmeric"
+            },
+            {
+                name: "Mung Bean",
+                tagalog: "Munggo",
+                icon: "🫛",
+                season: "Year-round (best: dry season)",
+                spacing: "10-15cm apart",
+                depth: "3cm deep",
+                germination: "5-7 days",
+                harvest: "60-75 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, drought-tolerant",
+                soil: "Well-draining, tolerates poor soil",
+                container: "15L pot minimum",
+                tips: [
+                    "Fast-growing legume",
+                    "Fixes nitrogen in soil",
+                    "No fertilizer needed",
+                    "Harvest when pods turn brown",
+                    "Can be sprouted for eating in 3-5 days",
+                    "Good cover crop between plantings"
+                ],
+                care: "Minimal watering, no fertilizer needed, very easy",
+                pests: "Watch for pod borers. Generally pest-resistant",
+                companion: "Plant with corn, eggplant. Improves soil for next crop"
+            },
+            {
+                name: "Peanut",
+                tagalog: "Mani",
+                icon: "🥜",
+                season: "Year-round (best: dry season)",
+                spacing: "20-30cm apart",
+                depth: "3-5cm deep",
+                germination: "7-10 days",
+                harvest: "90-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, reduce when flowering",
+                soil: "Loose, sandy, well-draining",
+                container: "30cm deep pot minimum",
+                tips: [
+                    "Flowers pollinate then bury themselves in soil",
+                    "Mound soil around plant base",
+                    "Stop watering 2 weeks before harvest",
+                    "Harvest when leaves turn yellow",
+                    "Dry in sun for 1-2 weeks after harvest",
+                    "Fixes nitrogen like other legumes"
+                ],
+                care: "Moderate watering, hill up soil, minimal fertilizer",
+                pests: "Watch for leaf spots, aphids. Generally easy to grow",
+                companion: "Plant with corn, squash. Improves soil fertility"
+            },
+            {
+                name: "Sweet Potato",
+                tagalog: "Kamote",
+                icon: "🍠",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "Plant slips/cuttings",
+                germination: "7-14 days (from cuttings)",
+                harvest: "90-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, drought-tolerant once established",
+                soil: "Loose, well-draining, moderately fertile",
+                container: "40L deep pot minimum",
+                tips: [
+                    "Grow from vine cuttings (slips), not seeds",
+                    "Plant cuttings with 3-4 nodes buried",
+                    "Leaves and shoots are also edible",
+                    "Vines spread widely, needs space",
+                    "Harvest before first frost or after 4 months",
+                    "Cure tubers in warm place for sweeter taste"
+                ],
+                care: "Moderate watering, minimal fertilizer, let vines spread",
+                pests: "Watch for sweet potato weevils, rats. Use raised beds",
+                companion: "Plant with beans, corn. Avoid with squash (space competition)"
+            },
+            {
+                name: "Lemongrass",
+                tagalog: "Tanglad",
+                icon: "🌾",
+                season: "Year-round",
+                spacing: "60cm apart",
+                depth: "Plant stalks",
+                germination: "10-14 days (from stalks)",
+                harvest: "75-100 days, continuous harvest",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, drought-tolerant",
+                soil: "Well-draining, tolerates most soil types",
+                container: "30L pot minimum, deep pot",
+                tips: [
+                    "Grow from fresh stalks with roots",
+                    "Place stalks in water until roots develop",
+                    "Very low maintenance once established",
+                    "Harvest outer stalks, leave center to grow",
+                    "Divide clumps every 2-3 years",
+                    "Repels mosquitoes naturally"
+                ],
+                care: "Minimal watering, no fertilizer needed, very hardy",
+                pests: "Pest-resistant, actually repels insects",
+                companion: "Plant near patios, windows. Natural pest deterrent"
+            },
+            {
+                name: "Basil",
+                tagalog: "Balanoy",
+                icon: "🌿",
+                season: "Year-round (best: dry season)",
+                spacing: "25-30cm apart",
+                depth: "0.5cm deep",
+                germination: "5-10 days",
+                harvest: "40-60 days, continuous harvest",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, prefers consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "10L pot minimum",
+                tips: [
+                    "Pinch off flower buds to encourage leaf growth",
+                    "Harvest from top to promote bushy growth",
+                    "Can root cuttings in water",
+                    "Use fresh or dry leaves for cooking",
+                    "Plant multiple times for continuous supply",
+                    "Wilts in cold weather"
+                ],
+                care: "Water daily, fertilize monthly, pinch regularly",
+                pests: "Watch for aphids, Japanese beetles. Spray with water",
+                companion: "Plant with tomatoes, peppers. Repels flies and mosquitoes"
+            },
+            {
+                name: "Spinach",
+                tagalog: "Espinaka",
+                icon: "🥬",
+                season: "Oct-Feb (cool season)",
+                spacing: "10-15cm apart",
+                depth: "1cm deep",
+                germination: "7-14 days",
+                harvest: "40-50 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, moisture-retaining with compost",
+                container: "15cm deep pot",
+                tips: [
+                    "Grows best in cool weather",
+                    "Bolts quickly in heat",
+                    "Harvest outer leaves first",
+                    "Sow every 2 weeks for continuous harvest",
+                    "Can substitute with local alugbati in hot season",
+                    "Refrigerate seeds before planting in warm weather"
+                ],
+                care: "Keep soil moist, add compost, provide afternoon shade",
+                pests: "Watch for leaf miners, aphids. Use row covers",
+                companion: "Plant with strawberries, peas. Avoid with potatoes"
+            },
+            {
+                name: "Carrot",
+                tagalog: "Karot",
+                icon: "🥕",
+                season: "Oct-Mar (cool season)",
+                spacing: "5-7cm apart",
+                depth: "0.5cm deep",
+                germination: "10-21 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture for straight roots",
+                soil: "Deep, loose, sandy, remove stones",
+                container: "30cm deep pot minimum",
+                tips: [
+                    "Direct sow, difficult to transplant",
+                    "Thin seedlings to proper spacing",
+                    "Mix seeds with sand for even distribution",
+                    "Keep soil consistently moist for germination",
+                    "Harvest when tops are 2cm diameter",
+                    "Grows best in cool highland areas"
+                ],
+                care: "Water daily, keep soil loose, thin seedlings early",
+                pests: "Watch for carrot flies, wireworms. Use row covers",
+                companion: "Plant with onions, leeks. Avoid with dill, parsnips"
+            },
+            {
+                name: "Corn",
+                tagalog: "Mais",
+                icon: "🌽",
+                season: "Year-round (best: dry season)",
+                spacing: "30cm apart in blocks",
+                depth: "3-5cm deep",
+                germination: "7-10 days",
+                harvest: "60-100 days",
+                sunlight: "8+ hours full sun",
+                water: "Every 2-3 days, deep watering",
+                soil: "Rich, well-draining, add compost",
+                container: "Not ideal for containers, needs ground space",
+                tips: [
+                    "Plant in blocks of 4+ rows for pollination",
+                    "Knee-high by July saying applies",
+                    "Silk appears when ready to pollinate",
+                    "Harvest when kernels release milky liquid",
+                    "Plant early morning, water in evening",
+                    "Remove suckers for larger ears"
+                ],
+                care: "Deep watering, fertilize at planting and when knee-high",
+                pests: "Watch for corn borers, birds. Use scarecrows, netting",
+                companion: "Plant with beans, squash (three sisters). Avoid tomatoes"
+            },
+            {
+                name: "Watermelon",
+                tagalog: "Pakwan",
+                icon: "🍉",
+                season: "Year-round (best: dry season)",
+                spacing: "100-150cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "80-100 days",
+                sunlight: "8+ hours full sun",
+                water: "Daily when young, reduce when fruiting",
+                soil: "Sandy, well-draining, rich in organic matter",
+                container: "Not recommended, needs large space",
+                tips: [
+                    "Needs large growing area",
+                    "Plant in mounds for drainage",
+                    "Hand-pollinate for better fruit set",
+                    "Tap watermelon, hollow sound means ripe",
+                    "Yellow spot on bottom indicates ripeness",
+                    "Provide support under developing fruits"
+                ],
+                care: "Regular watering, fertilize monthly, mulch heavily",
+                pests: "Watch for aphids, fruit flies. Use row covers when young",
+                companion: "Plant with radish, nasturtiums. Keep away from potatoes"
+            },
+            {
+                name: "Papaya",
+                tagalog: "Papaya",
+                icon: "🫐",
+                season: "Year-round (plant at start of wet season)",
+                spacing: "2-3m apart",
+                depth: "Plant seedlings",
+                germination: "10-15 days from seed",
+                harvest: "9-12 months from planting",
+                sunlight: "8+ hours full sun",
+                water: "Every 2-3 days, increase when fruiting",
+                soil: "Well-draining, rich, slightly acidic",
+                container: "Not ideal, needs ground planting",
+                tips: [
+                    "Grow from fresh papaya seeds",
+                    "Plant 3-4 seeds per hole, thin to 1 strongest",
+                    "Fast-growing fruit tree",
+                    "Fruits in less than a year",
+                    "Check for male/female flowers",
+                    "Harvest when skin turns yellow"
+                ],
+                care: "Regular watering, monthly fertilizer, protect from strong winds",
+                pests: "Watch for fruit flies, aphids. Bag fruits to protect",
+                companion: "Plant away from other trees, needs full sun exposure"
+            },
+            {
+                name: "Banana",
+                tagalog: "Saging",
+                icon: "🍌",
+                season: "Year-round (plant at start of wet season)",
+                spacing: "2-3m apart",
+                depth: "Plant suckers",
+                germination: "Plant from suckers, not seeds",
+                harvest: "9-12 months from planting",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, needs consistent moisture",
+                soil: "Rich, well-draining, deep soil",
+                container: "Not recommended, needs ground space",
+                tips: [
+                    "Grow from banana suckers",
+                    "Choose sword suckers for planting",
+                    "Mulch heavily around base",
+                    "Remove old leaves regularly",
+                    "One fruiting per stem, then cut down",
+                    "Allow new suckers to replace old plant"
+                ],
+                care: "Regular watering, monthly compost, remove dead leaves",
+                pests: "Watch for banana weevils, nematodes. Use healthy planting material",
+                companion: "Plant with sweet potato, ginger as understory"
+            },
+            {
+                name: "Moringa",
+                tagalog: "Malunggay",
+                icon: "🌿",
+                season: "Year-round (best: start of wet season)",
+                spacing: "2m apart",
+                depth: "Plant cuttings 30cm deep",
+                germination: "14-21 days from cuttings",
+                harvest: "Leaves: 60 days, continuous harvest",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, drought-tolerant",
+                soil: "Well-draining, tolerates poor soil",
+                container: "Large container 40L+, but ground is better",
+                tips: [
+                    "Grow from seeds or cuttings",
+                    "Cuttings grow faster than seeds",
+                    "Cut back regularly for bushy growth",
+                    "All parts are edible and nutritious",
+                    "Very fast-growing tree",
+                    "Can harvest leaves year-round"
+                ],
+                care: "Minimal watering once established, prune regularly",
+                pests: "Generally pest-resistant, very hardy plant",
+                companion: "Plant as fence or border, provides light shade"
+            },
+            {
+                name: "Pumpkin",
+                tagalog: "Kalabasa (type)",
+                icon: "🎃",
+                season: "Year-round (best: dry season)",
+                spacing: "120cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "90-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, deep watering",
+                soil: "Rich, well-draining with lots of compost",
+                container: "Not ideal, needs large space",
+                tips: [
+                    "Plant in mounds with compost",
+                    "Vines spread 3-5 meters",
+                    "Hand-pollinate in early morning",
+                    "Harvest when stem dries and hardens",
+                    "Cure in sun for 1-2 weeks after harvest",
+                    "Can grow on strong trellis"
+                ],
+                care: "Deep watering, fertilize at flowering, mulch heavily",
+                pests: "Watch for squash bugs, powdery mildew. Remove affected leaves",
+                companion: "Plant with corn, beans. Avoid with potatoes"
+            },
+            {
+                name: "Winged Bean",
+                tagalog: "Sigarilyas",
+                icon: "🫛",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, fertile soil",
+                container: "20L pot with trellis",
+                tips: [
+                    "Needs trellis or support",
+                    "All parts edible: pods, leaves, flowers, tubers",
+                    "Pick pods young and tender",
+                    "Regular harvesting increases production",
+                    "Nitrogen-fixing legume",
+                    "Can grow tubers for additional harvest"
+                ],
+                care: "Moderate watering, minimal fertilizer, provide support",
+                pests: "Watch for pod borers, aphids. Generally pest-resistant",
+                companion: "Plant with corn, root vegetables. Improves soil"
+            },
+            {
+                name: "Bottle Gourd",
+                tagalog: "Upo",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "100cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "30L pot with strong trellis",
+                tips: [
+                    "Needs strong trellis support",
+                    "Harvest young for tender texture",
+                    "Can grow very large if left on vine",
+                    "Hand-pollinate for better fruit set",
+                    "Grows quickly in warm weather",
+                    "Pinch growing tips for more side shoots"
+                ],
+                care: "Daily watering, weekly fertilizer, train on trellis",
+                pests: "Watch for fruit flies, aphids. Use fruit bags",
+                companion: "Plant with beans, radish. Avoid with squash family"
+            },
+            {
+                name: "Winter Melon",
+                tagalog: "Kondol",
+                icon: "🍈",
+                season: "Year-round (best: dry season)",
+                spacing: "150cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "90-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, reduce when fruiting",
+                soil: "Rich, well-draining, sandy loam",
+                container: "Not recommended, needs large space",
+                tips: [
+                    "Needs very large growing space",
+                    "Fruits can grow very large (5-20kg)",
+                    "Harvest when waxy coating appears",
+                    "Can store for months after harvest",
+                    "Provide support under heavy fruits",
+                    "One or two fruits per vine for larger size"
+                ],
+                care: "Regular watering, monthly fertilizer, strong trellis needed",
+                pests: "Watch for fruit flies, melon fly. Use protective bags",
+                companion: "Plant with corn, radish. Needs full sun exposure"
+            },
+            {
+                name: "Yardlong Bean",
+                tagalog: "Sitaw Tagalog",
+                icon: "🫘",
+                season: "Year-round",
+                spacing: "25-30cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "50-60 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately fertile",
+                container: "20L pot with tall trellis",
+                tips: [
+                    "Similar to sitaw but longer pods",
+                    "Install tall trellis before planting",
+                    "Harvest when pods are 40-50cm long",
+                    "Pick regularly for continuous production",
+                    "Very productive plant",
+                    "Drought-tolerant once established"
+                ],
+                care: "Moderate watering, minimal fertilizer, harvest frequently",
+                pests: "Watch for bean beetles, pod borers. Use neem spray",
+                companion: "Plant with corn, radish. Avoid with onion family"
+            },
+            {
+                name: "Alugbati",
+                tagalog: "Alugbati",
+                icon: "🍃",
+                season: "Year-round (thrives in hot weather)",
+                spacing: "30cm apart",
+                depth: "Plant cuttings or seeds 1cm",
+                germination: "7-10 days from seeds",
+                harvest: "30-40 days, continuous harvest",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, moist, well-draining",
+                container: "15L pot with trellis",
+                tips: [
+                    "Grows from seeds or stem cuttings",
+                    "Thrives in hot humid weather",
+                    "Climbing vine, needs trellis",
+                    "Harvest young leaves and tips",
+                    "Cut and come again vegetable",
+                    "Substitute for spinach in hot season"
+                ],
+                care: "Water daily, fertilize monthly, prune for bushy growth",
+                pests: "Generally pest-free, very hardy plant",
+                companion: "Plant with beans, corn. Provides shade for lettuce"
+            },
+            {
+                name: "Taro",
+                tagalog: "Gabi",
+                icon: "🌱",
+                season: "Year-round (plant at start of wet season)",
+                spacing: "60-90cm apart",
+                depth: "10-15cm deep",
+                germination: "14-21 days from corms",
+                harvest: "7-9 months",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, prefers wet conditions",
+                soil: "Rich, moisture-retaining, can grow in shallow water",
+                container: "30L+ deep pot",
+                tips: [
+                    "Plant corms with sprouts facing up",
+                    "Prefers wet, boggy conditions",
+                    "Leaves also edible when cooked",
+                    "Harvest when leaves start yellowing",
+                    "Save small corms for replanting",
+                    "Handle with gloves, raw plants can irritate skin"
+                ],
+                care: "Keep very moist, add compost monthly, partial shade best",
+                pests: "Watch for taro beetles, leaf blight. Remove infected leaves",
+                companion: "Plant with kangkong in wet areas. Good pond edge plant"
+            },
+            {
+                name: "Purple Yam",
+                tagalog: "Ube",
+                icon: "🍠",
+                season: "Year-round (plant at start of wet season)",
+                spacing: "100cm apart",
+                depth: "10cm deep",
+                germination: "Plant from tuber pieces",
+                harvest: "8-10 months",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, reduce near harvest",
+                soil: "Deep, loose, well-draining",
+                container: "Not recommended, needs deep soil",
+                tips: [
+                    "Plant tuber pieces with eyes",
+                    "Vines climb and spread widely",
+                    "Needs trellis or support",
+                    "Long growing season",
+                    "Harvest when vines die back",
+                    "Tubers improve in storage"
+                ],
+                care: "Regular watering, monthly fertilizer, provide trellis",
+                pests: "Watch for yam beetles, nematodes. Rotate planting areas",
+                companion: "Plant with beans, sweet potato. Avoid root competition"
+            },
+            {
+                name: "Cassava",
+                tagalog: "Kamoteng Kahoy",
+                icon: "🥔",
+                season: "Year-round (best: start of wet season)",
+                spacing: "100cm apart",
+                depth: "Plant stem cuttings 10cm",
+                germination: "Plant from stem cuttings",
+                harvest: "8-12 months",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, drought-tolerant",
+                soil: "Well-draining, tolerates poor soil",
+                container: "Not recommended, needs ground space",
+                tips: [
+                    "Plant 20-30cm stem cuttings at angle",
+                    "Very drought-tolerant once established",
+                    "Harvest after 8-12 months",
+                    "Leaves also edible when cooked",
+                    "Process tubers within 2-3 days",
+                    "Save stems from best plants for next crop"
+                ],
+                care: "Minimal watering after establishment, hill up soil occasionally",
+                pests: "Watch for mealybugs, cassava mosaic. Use clean planting material",
+                companion: "Plant with peanut, beans. Avoid with yam"
+            },
+            {
+                name: "Cilantro",
+                tagalog: "Wansoy/Kinchay",
+                icon: "🌿",
+                season: "Oct-Feb (cool season)",
+                spacing: "15-20cm apart",
+                depth: "1cm deep",
+                germination: "7-14 days",
+                harvest: "40-50 days, continuous harvest",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, keep soil moist",
+                soil: "Rich, well-draining with compost",
+                container: "10L pot minimum",
+                tips: [
+                    "Grows best in cool weather",
+                    "Bolts quickly in heat",
+                    "Harvest leaves frequently",
+                    "Seed (coriander) also valuable spice",
+                    "Plant in succession every 3 weeks",
+                    "Grows well in partial shade"
+                ],
+                care: "Daily watering, light fertilizer, harvest regularly",
+                pests: "Watch for aphids, whiteflies. Generally pest-resistant",
+                companion: "Plant with tomatoes, peppers. Attracts beneficial insects"
+            },
+            {
+                name: "Spring Onion",
+                tagalog: "Sibuyas Dahon",
+                icon: "🧅",
+                season: "Year-round",
+                spacing: "5cm apart",
+                depth: "1-2cm deep",
+                germination: "7-14 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "15cm deep pot",
+                tips: [
+                    "Can regrow from kitchen scraps in water",
+                    "Plant roots with 2-3cm of white part",
+                    "Harvest by cutting, leave roots to regrow",
+                    "Very easy for beginners",
+                    "Grows faster than bulb onions",
+                    "Use both green tops and white bottoms"
+                ],
+                care: "Regular watering, light fertilizer, harvest as needed",
+                pests: "Watch for onion thrips, aphids. Spray with water",
+                companion: "Plant with carrots, lettuce. Repels many pests"
+            },
+            {
+                name: "Bok Choy",
+                tagalog: "Pechay Baguio",
+                icon: "🥬",
+                season: "Oct-Mar (cool season)",
+                spacing: "20-25cm apart",
+                depth: "0.5cm deep",
+                germination: "5-7 days",
+                harvest: "45-60 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, moisture-retaining with compost",
+                container: "15L pot minimum",
+                tips: [
+                    "Prefers cool highland conditions",
+                    "Larger than regular pechay",
+                    "Harvest whole plant or outer leaves",
+                    "Bolts in hot weather",
+                    "Succession plant every 2 weeks",
+                    "Great for cool season gardens"
+                ],
+                care: "Daily watering, monthly compost, partial shade in warm areas",
+                pests: "Watch for cabbage worms, aphids. Hand-pick or use BT spray",
+                companion: "Plant with lettuce, herbs. Avoid with strawberries"
+            },
+            {
+                name: "Squash Blossoms",
+                tagalog: "Bulaklak ng Kalabasa",
+                icon: "🌼",
+                season: "Year-round",
+                spacing: "Plant kalabasa/squash",
+                depth: "Harvest from existing plants",
+                germination: "From squash plants",
+                harvest: "Pick in morning when fresh",
+                sunlight: "From parent squash plant",
+                water: "Follow squash watering",
+                soil: "Follow squash requirements",
+                container: "Harvest from any squash variety",
+                tips: [
+                    "Harvest male flowers (long thin stems)",
+                    "Leave female flowers (have small fruit at base)",
+                    "Pick in early morning when open",
+                    "Use fresh same day for best quality",
+                    "Delicacy in Filipino cuisine",
+                    "Good source of vitamins"
+                ],
+                care: "Care for parent squash plant, harvest male flowers only",
+                pests: "Follow squash pest management",
+                companion: "Part of squash companion planting strategy"
+            },
+            {
+                name: "Kale",
+                tagalog: "Kale",
+                icon: "🥬",
+                season: "Oct-Feb (cool season)",
+                spacing: "30-40cm apart",
+                depth: "1cm deep",
+                germination: "7-10 days",
+                harvest: "55-75 days, continuous harvest",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining with compost",
+                container: "20L pot minimum",
+                tips: [
+                    "Very cold-hardy, grows in cool highlands",
+                    "Harvest outer leaves first",
+                    "Flavor improves after light frost",
+                    "Cut and come again crop",
+                    "Nutrient-dense superfood",
+                    "Difficult in lowland hot areas"
+                ],
+                care: "Regular watering, monthly fertilizer, mulch well",
+                pests: "Watch for cabbage worms, aphids. Use row covers",
+                companion: "Plant with onions, herbs. Avoid with strawberries"
+            },
+            {
+                name: "Parsley",
+                tagalog: "Perehil",
+                icon: "🌿",
+                season: "Oct-Mar (cool season)",
+                spacing: "15-20cm apart",
+                depth: "0.5cm deep",
+                germination: "14-28 days (slow)",
+                harvest: "70-90 days, continuous harvest",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, keep moist",
+                soil: "Rich, well-draining with compost",
+                container: "15L pot minimum",
+                tips: [
+                    "Soak seeds overnight for faster germination",
+                    "Very slow to germinate, be patient",
+                    "Harvest outer stems regularly",
+                    "Biennial, may bolt in second year",
+                    "Both flat and curly varieties available",
+                    "Rich in vitamins and minerals"
+                ],
+                care: "Daily watering, light fertilizer, harvest frequently",
+                pests: "Watch for aphids, caterpillars. Generally pest-resistant",
+                companion: "Plant with tomatoes, roses. Attracts beneficial insects"
+            },
+            {
+                name: "Arugula",
+                tagalog: "Arugula/Rocket",
+                icon: "🥗",
+                season: "Oct-Feb (cool season)",
+                spacing: "10-15cm apart",
+                depth: "0.5cm deep",
+                germination: "5-7 days",
+                harvest: "30-40 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining",
+                container: "10L pot minimum",
+                tips: [
+                    "Fast-growing salad green",
+                    "Peppery flavor, great in salads",
+                    "Harvest young leaves for mild flavor",
+                    "Bolts quickly in heat",
+                    "Succession plant every 2 weeks",
+                    "Grows well in containers"
+                ],
+                care: "Daily watering, light fertilizer, harvest young",
+                pests: "Watch for flea beetles, aphids. Use row covers",
+                companion: "Plant with lettuce, carrots. Avoid with brassicas"
+            },
+            {
+                name: "Cabbage",
+                tagalog: "Repolyo",
+                icon: "🥬",
+                season: "Oct-Mar (cool season)",
+                spacing: "40-50cm apart",
+                depth: "0.5cm deep",
+                germination: "7-10 days",
+                harvest: "70-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture crucial",
+                soil: "Rich, well-draining with compost, pH 6.0-7.5",
+                container: "20L pot minimum",
+                tips: [
+                    "Grows best in cool highland areas",
+                    "Start in seedling trays, transplant after 4 weeks",
+                    "Needs consistent water for tight heads",
+                    "Harvest when head is firm",
+                    "Can grow mini varieties in containers",
+                    "Difficult in hot lowland areas"
+                ],
+                care: "Daily watering, fertilize every 3 weeks, mulch heavily",
+                pests: "Watch for cabbage worms, aphids. Use BT spray or neem oil",
+                companion: "Plant with onions, celery. Avoid with strawberries"
+            },
+            {
+                name: "Cauliflower",
+                tagalog: "Cauliflower",
+                icon: "🥦",
+                season: "Oct-Feb (cool season)",
+                spacing: "45-60cm apart",
+                depth: "0.5cm deep",
+                germination: "7-10 days",
+                harvest: "75-100 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, well-draining with lots of compost",
+                container: "25L pot minimum",
+                tips: [
+                    "More challenging than cabbage",
+                    "Needs cool temperatures to head properly",
+                    "Blanch heads by tying leaves over",
+                    "Best grown in highland areas",
+                    "Transplant carefully to avoid shock",
+                    "Harvest when heads are compact and white"
+                ],
+                care: "Daily watering, heavy feeding, protect heads from sun",
+                pests: "Watch for cabbage worms, aphids. Use row covers",
+                companion: "Plant with celery, beans. Avoid with tomatoes"
+            },
+            {
+                name: "Broccoli",
+                tagalog: "Broccoli",
+                icon: "🥦",
+                season: "Oct-Feb (cool season)",
+                spacing: "45-60cm apart",
+                depth: "0.5cm deep",
+                germination: "7-10 days",
+                harvest: "60-90 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "20L pot minimum",
+                tips: [
+                    "Easier than cauliflower",
+                    "Harvest main head first",
+                    "Side shoots continue producing",
+                    "Best in cool highland areas",
+                    "Don't let flower buds open",
+                    "Cut stem at angle for continued harvest"
+                ],
+                care: "Daily watering, fertilize monthly, harvest regularly",
+                pests: "Watch for cabbage worms, aphids. Spray with BT",
+                companion: "Plant with onions, herbs. Avoid with tomatoes"
+            },
+            {
+                name: "Celery",
+                tagalog: "Celery/Kinchay",
+                icon: "🌿",
+                season: "Oct-Mar (cool season)",
+                spacing: "20-25cm apart",
+                depth: "Surface sow, barely cover",
+                germination: "14-21 days",
+                harvest: "85-120 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, needs very consistent moisture",
+                soil: "Rich, moisture-retaining, heavy feeder",
+                container: "20L deep pot",
+                tips: [
+                    "Very slow growing",
+                    "Needs consistent moisture always",
+                    "Difficult in hot climates",
+                    "Blanch stalks for milder flavor",
+                    "Harvest outer stalks first",
+                    "Chinese celery easier to grow"
+                ],
+                care: "Daily heavy watering, fertilize bi-weekly, mulch well",
+                pests: "Watch for aphids, leaf miners. Use row covers",
+                companion: "Plant with tomatoes, cabbage. Avoid with carrots"
+            },
+            {
+                name: "Turnip",
+                tagalog: "Turnip/Singkamas Puti",
+                icon: "🥔",
+                season: "Oct-Feb (cool season)",
+                spacing: "10-15cm apart",
+                depth: "1cm deep",
+                germination: "7-10 days",
+                harvest: "40-60 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, consistent moisture",
+                soil: "Loose, well-draining, remove stones",
+                container: "20cm deep pot",
+                tips: [
+                    "Fast-growing root vegetable",
+                    "Both roots and greens edible",
+                    "Harvest young for best flavor",
+                    "Don't let get too large or woody",
+                    "Greens can be harvested early",
+                    "Grows well in cool highland areas"
+                ],
+                care: "Regular watering, light fertilizer, thin seedlings",
+                pests: "Watch for flea beetles, aphids. Use row covers",
+                companion: "Plant with peas, beans. Avoid with potatoes"
+            },
+            {
+                name: "Beet",
+                tagalog: "Beet/Beet Root",
+                icon: "🥗",
+                season: "Oct-Feb (cool season)",
+                spacing: "10cm apart",
+                depth: "1-2cm deep",
+                germination: "7-14 days",
+                harvest: "50-70 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, consistent moisture",
+                soil: "Loose, well-draining, pH 6.0-7.0",
+                container: "20cm deep pot",
+                tips: [
+                    "Both roots and greens edible",
+                    "Each seed is actually a cluster",
+                    "Thin seedlings to proper spacing",
+                    "Harvest when 5-7cm diameter",
+                    "Grows best in cool weather",
+                    "Leaves can be harvested like spinach"
+                ],
+                care: "Regular watering, light fertilizer, thin early",
+                pests: "Watch for leaf miners, aphids. Generally pest-resistant",
+                companion: "Plant with onions, lettuce. Avoid with pole beans"
+            },
+            {
+                name: "Zucchini",
+                tagalog: "Zucchini",
+                icon: "🥒",
+                season: "Year-round (best: dry season)",
+                spacing: "60-90cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "45-55 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "30L pot minimum",
+                tips: [
+                    "Very productive summer squash",
+                    "Harvest when 15-20cm long",
+                    "Check plants daily during production",
+                    "Flowers are also edible",
+                    "Bush varieties good for containers",
+                    "Don't let fruits get too large"
+                ],
+                care: "Daily watering, weekly fertilizer, harvest frequently",
+                pests: "Watch for squash bugs, powdery mildew. Remove affected leaves",
+                companion: "Plant with corn, beans. Avoid with potatoes"
+            },
+            {
+                name: "Leek",
+                tagalog: "Leek/Sibuyas Kutsay",
+                icon: "🧅",
+                season: "Oct-Mar (cool season)",
+                spacing: "15cm apart",
+                depth: "1cm deep",
+                germination: "10-14 days",
+                harvest: "120-150 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining, deep soil",
+                container: "30cm deep pot",
+                tips: [
+                    "Long growing season",
+                    "Hill up soil for longer white shaft",
+                    "More cold-tolerant than onions",
+                    "Harvest when 2-3cm diameter",
+                    "Can overwinter in cool areas",
+                    "Milder flavor than onions"
+                ],
+                care: "Regular watering, monthly fertilizer, hill up soil",
+                pests: "Watch for onion thrips, leaf miners. Use row covers",
+                companion: "Plant with carrots, celery. Avoid with beans"
+            },
+            {
+                name: "Fennel",
+                tagalog: "Fennel/Halamang Anis",
+                icon: "🌿",
+                season: "Oct-Feb (cool season)",
+                spacing: "30cm apart",
+                depth: "0.5cm deep",
+                germination: "10-14 days",
+                harvest: "65-90 days for bulbs",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "20L pot minimum",
+                tips: [
+                    "Entire plant is edible",
+                    "Bulb, fronds, and seeds all useful",
+                    "Don't plant near other vegetables",
+                    "Harvest bulb when tennis ball size",
+                    "Can bolt in hot weather",
+                    "Licorice-like flavor"
+                ],
+                care: "Regular watering, light fertilizer, harvest before bolting",
+                pests: "Watch for aphids, caterpillars. Generally pest-resistant",
+                companion: "Plant alone or with fennel. Inhibits most other plants"
+            },
+            {
+                name: "Swiss Chard",
+                tagalog: "Swiss Chard",
+                icon: "🥬",
+                season: "Oct-Mar (cool season)",
+                spacing: "20-25cm apart",
+                depth: "1cm deep",
+                germination: "7-14 days",
+                harvest: "50-60 days, continuous harvest",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "15L pot minimum",
+                tips: [
+                    "Heat-tolerant leafy green",
+                    "Rainbow varieties very ornamental",
+                    "Harvest outer leaves first",
+                    "Both stems and leaves edible",
+                    "More heat-tolerant than spinach",
+                    "Cut and come again crop"
+                ],
+                care: "Daily watering, monthly fertilizer, harvest regularly",
+                pests: "Watch for leaf miners, aphids. Remove affected leaves",
+                companion: "Plant with beans, onions. Avoid with potatoes"
+            },
+            {
+                name: "Kohlrabi",
+                tagalog: "Kohlrabi",
+                icon: "🥔",
+                season: "Oct-Feb (cool season)",
+                spacing: "20-25cm apart",
+                depth: "0.5cm deep",
+                germination: "7-10 days",
+                harvest: "45-60 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining",
+                container: "15L pot minimum",
+                tips: [
+                    "Unique above-ground bulb",
+                    "Harvest when bulb is 5-8cm diameter",
+                    "Don't let get too large or woody",
+                    "Leaves also edible like kale",
+                    "Fast-growing cool season crop",
+                    "Crisp, mild cabbage flavor"
+                ],
+                care: "Daily watering, light fertilizer, harvest young",
+                pests: "Watch for cabbage worms, aphids. Use row covers",
+                companion: "Plant with beets, onions. Avoid with tomatoes"
+            },
+            {
+                name: "Horseradish",
+                tagalog: "Horseradish",
+                icon: "🌿",
+                season: "Oct-Feb (plant roots in cool season)",
+                spacing: "40-50cm apart",
+                depth: "10-15cm deep",
+                germination: "Plant root cuttings",
+                harvest: "8-10 months, perennial",
+                sunlight: "4-6 hours partial sun",
+                water: "Every 3-4 days",
+                soil: "Deep, loose, rich soil",
+                container: "30L+ deep pot",
+                tips: [
+                    "Grow from root cuttings",
+                    "Very invasive, contain in pots",
+                    "Harvest roots in fall/winter",
+                    "Leaves can be used in salads",
+                    "Grate fresh root for condiment",
+                    "Replant small pieces after harvest"
+                ],
+                care: "Moderate watering, minimal care, contain spread",
+                pests: "Generally pest-free, very hardy",
+                companion: "Plant in containers to prevent spreading"
+            },
+            {
+                name: "Asparagus",
+                tagalog: "Asparagus/Esparrago",
+                icon: "🌿",
+                season: "Plant crowns Oct-Jan",
+                spacing: "40-50cm apart",
+                depth: "15-20cm deep trenches",
+                germination: "Plant crowns, not seeds",
+                harvest: "2-3 years after planting",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Deep, well-draining, sandy loam",
+                container: "Not recommended, needs deep beds",
+                tips: [
+                    "Long-term perennial investment",
+                    "Don't harvest first 2 years",
+                    "Harvest spears when 15-20cm tall",
+                    "Let some spears grow into ferns",
+                    "Cut back ferns in winter",
+                    "Very difficult in tropical lowlands"
+                ],
+                care: "Regular watering, annual compost application, be patient",
+                pests: "Watch for asparagus beetles. Hand-pick beetles",
+                companion: "Plant with tomatoes, parsley. Avoid with onions"
+            },
+            {
+                name: "Watercress",
+                tagalog: "Watercress",
+                icon: "🌿",
+                season: "Year-round (best in cool season)",
+                spacing: "10cm apart",
+                depth: "Surface sow or plant cuttings",
+                germination: "7-14 days",
+                harvest: "30-40 days, continuous",
+                sunlight: "4-6 hours partial shade",
+                water: "Grow in water or very wet soil",
+                soil: "Submerged or constantly wet",
+                container: "Wide shallow container with water",
+                tips: [
+                    "Aquatic plant, grows in water",
+                    "Can grow in pots in water tray",
+                    "Harvest tips and stems",
+                    "Very fast growing",
+                    "Peppery flavor for salads",
+                    "Rich in vitamins and minerals"
+                ],
+                care: "Keep submerged or very wet, partial shade, harvest often",
+                pests: "Generally pest-free in water culture",
+                companion: "Grows well with kangkong in water gardens"
+            },
+            {
+                name: "Calamansi",
+                tagalog: "Kalamansi",
+                icon: "🍋",
+                season: "Year-round (plant seedlings)",
+                spacing: "3-4m apart",
+                depth: "Plant seedlings at soil level",
+                germination: "Plant from seedlings or cuttings",
+                harvest: "2-3 years after planting",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, slightly acidic",
+                container: "40L+ pot for dwarf varieties",
+                tips: [
+                    "Small citrus tree, very popular",
+                    "Can grow from seeds but takes longer",
+                    "Grafted trees fruit faster",
+                    "Fruits year-round once established",
+                    "Prune to keep compact shape",
+                    "Essential in Filipino cuisine"
+                ],
+                care: "Regular watering, quarterly citrus fertilizer, prune annually",
+                pests: "Watch for aphids, scale insects. Spray with neem oil",
+                companion: "Plant with herbs. Keep away from vegetables"
+            },
+            {
+                name: "Chayote",
+                tagalog: "Sayote",
+                icon: "🥒",
+                season: "Year-round (plant whole fruit)",
+                spacing: "3-4m apart",
+                depth: "Plant whole fruit at angle",
+                germination: "Plant sprouting fruit",
+                harvest: "4-5 months, continuous production",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "Not recommended, very large vine",
+                tips: [
+                    "Plant whole sprouting fruit",
+                    "Massive vine, needs strong trellis",
+                    "Shoots and leaves also edible",
+                    "Very productive once established",
+                    "Can produce 50-100 fruits per year",
+                    "Perennial in tropical areas"
+                ],
+                care: "Regular watering, monthly fertilizer, strong support needed",
+                pests: "Watch for fruit flies, aphids. Generally pest-resistant",
+                companion: "Needs own space, very vigorous grower"
+            },
+            {
+                name: "Pea",
+                tagalog: "Gisantes/Sitsaro",
+                icon: "🫛",
+                season: "Oct-Feb (cool season)",
+                spacing: "5-10cm apart",
+                depth: "3-5cm deep",
+                germination: "7-14 days",
+                harvest: "60-70 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, add compost",
+                container: "15L pot with trellis",
+                tips: [
+                    "Grows best in cool weather",
+                    "Needs trellis for climbing varieties",
+                    "Pick pods regularly for more production",
+                    "Both snow peas and shell peas available",
+                    "Nitrogen-fixing legume",
+                    "Difficult in hot lowlands"
+                ],
+                care: "Moderate watering, minimal fertilizer, provide support",
+                pests: "Watch for aphids, powdery mildew. Good air circulation",
+                companion: "Plant with carrots, turnips. Avoid with onions"
+            },
+            {
+                name: "Rosemary",
+                tagalog: "Rosemary",
+                icon: "🌿",
+                season: "Year-round (best: cool season)",
+                spacing: "60cm apart",
+                depth: "Plant from cuttings or seedlings",
+                germination: "Plant from cuttings",
+                harvest: "60-90 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, drought-tolerant",
+                soil: "Well-draining, sandy, alkaline",
+                container: "20L pot minimum",
+                tips: [
+                    "Woody perennial herb",
+                    "Prefers dry conditions",
+                    "Difficult in humid tropical lowlands",
+                    "Grows better in cool highlands",
+                    "Harvest sprigs as needed",
+                    "Prune regularly to keep bushy"
+                ],
+                care: "Minimal watering, well-draining soil crucial, full sun",
+                pests: "Generally pest-free, dislikes humidity",
+                companion: "Plant with sage, thyme. Repels many pests"
+            },
+            {
+                name: "Thyme",
+                tagalog: "Thyme",
+                icon: "🌿",
+                season: "Year-round (best: cool season)",
+                spacing: "20-30cm apart",
+                depth: "Plant from cuttings or divisions",
+                germination: "Plant from cuttings",
+                harvest: "60 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, drought-tolerant",
+                soil: "Well-draining, sandy",
+                container: "10L pot minimum",
+                tips: [
+                    "Low-growing perennial herb",
+                    "Many varieties available",
+                    "Prefers dry conditions",
+                    "Harvest sprigs throughout season",
+                    "Grows better in highlands",
+                    "Can be used fresh or dried"
+                ],
+                care: "Minimal watering, good drainage essential, full sun",
+                pests: "Generally pest-free, very hardy",
+                companion: "Plant with rosemary, sage. Attracts beneficial insects"
+            },
+            {
+                name: "Oregano",
+                tagalog: "Oregano",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "Plant from cuttings or divisions",
+                germination: "Plant from cuttings",
+                harvest: "60 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining",
+                container: "10L pot minimum",
+                tips: [
+                    "Spreading perennial herb",
+                    "Easy to grow from cuttings",
+                    "Harvest before flowering for best flavor",
+                    "Dries well for storage",
+                    "Can become invasive",
+                    "Tolerates heat better than other herbs"
+                ],
+                care: "Moderate watering, minimal fertilizer, prune regularly",
+                pests: "Watch for aphids, spider mites. Generally hardy",
+                companion: "Plant with tomatoes, peppers. Repels pests"
+            },
+            {
+                name: "Mint",
+                tagalog: "Yerba Buena/Mint",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "30-40cm apart",
+                depth: "Plant from cuttings or runners",
+                germination: "Plant from cuttings",
+                harvest: "40-50 days, continuous",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, needs consistent moisture",
+                soil: "Moist, rich, well-draining",
+                container: "15L pot (contains spread)",
+                tips: [
+                    "Very invasive, grow in containers",
+                    "Many varieties: spearmint, peppermint",
+                    "Spreads by runners",
+                    "Harvest frequently to control growth",
+                    "Easy to root in water",
+                    "Medicinal and culinary uses"
+                ],
+                care: "Daily watering, contain in pots, harvest often",
+                pests: "Watch for aphids, spider mites. Generally pest-resistant",
+                companion: "Grow in containers. Repels many insects"
+            },
+            {
+                name: "Dill",
+                tagalog: "Dill/Eneldo",
+                icon: "🌿",
+                season: "Oct-Feb (cool season)",
+                spacing: "20-30cm apart",
+                depth: "0.5cm deep",
+                germination: "10-14 days",
+                harvest: "40-60 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately fertile",
+                container: "15L deep pot",
+                tips: [
+                    "Annual herb, reseeds easily",
+                    "Use fresh or dried",
+                    "Harvest leaves before flowering",
+                    "Seeds also valuable",
+                    "Attracts beneficial insects",
+                    "Succession plant for continuous supply"
+                ],
+                care: "Moderate watering, minimal fertilizer, support tall plants",
+                pests: "Watch for aphids, caterpillars. Attracts beneficial insects",
+                companion: "Plant with cabbage, lettuce. Avoid with carrots"
+            },
+            {
+                name: "Tarragon",
+                tagalog: "Tarragon",
+                icon: "🌿",
+                season: "Year-round (best: cool season)",
+                spacing: "40-60cm apart",
+                depth: "Plant from cuttings or divisions",
+                germination: "Plant from cuttings",
+                harvest: "60-90 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately rich",
+                container: "20L pot minimum",
+                tips: [
+                    "Perennial herb with anise flavor",
+                    "French tarragon is superior variety",
+                    "Doesn't grow true from seed",
+                    "Propagate by division or cuttings",
+                    "Use fresh in cooking",
+                    "Difficult in hot humid lowlands"
+                ],
+                care: "Moderate watering, good drainage, divide every 3 years",
+                pests: "Watch for rust fungus, slugs. Generally pest-resistant",
+                companion: "Plant with most vegetables. Good general companion"
+            },
+            {
+                name: "Sage",
+                tagalog: "Sage",
+                icon: "🌿",
+                season: "Year-round (best: cool season)",
+                spacing: "50-60cm apart",
+                depth: "Plant from cuttings or seedlings",
+                germination: "Plant from cuttings",
+                harvest: "75-90 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, drought-tolerant",
+                soil: "Well-draining, sandy, slightly alkaline",
+                container: "20L pot minimum",
+                tips: [
+                    "Woody perennial herb",
+                    "Prefers dry conditions",
+                    "Difficult in tropical lowlands",
+                    "Many varieties available",
+                    "Harvest before flowering",
+                    "Replace plants every 4-5 years"
+                ],
+                care: "Minimal watering, good drainage essential, prune after flowering",
+                pests: "Watch for spider mites in dry conditions. Generally hardy",
+                companion: "Plant with rosemary, carrots. Repels cabbage moths"
+            },
+            {
+                name: "Chives",
+                tagalog: "Chives",
+                icon: "🧅",
+                season: "Year-round",
+                spacing: "20cm apart",
+                depth: "1cm deep or plant divisions",
+                germination: "10-14 days from seed",
+                harvest: "60 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "15L pot minimum",
+                tips: [
+                    "Perennial onion relative",
+                    "Harvest by cutting leaves",
+                    "Edible purple flowers",
+                    "Divide clumps every 2-3 years",
+                    "Easy to grow from seed or division",
+                    "Use like green onions in cooking"
+                ],
+                care: "Regular watering, fertilize monthly, divide regularly",
+                pests: "Generally pest-free. Repels aphids naturally",
+                companion: "Plant with carrots, tomatoes. Repels many pests"
+            },
+            {
+                name: "Marjoram",
+                tagalog: "Marjoram",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "25-30cm apart",
+                depth: "Plant from cuttings or seedlings",
+                germination: "10-14 days from seed",
+                harvest: "60 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately fertile",
+                container: "10L pot minimum",
+                tips: [
+                    "Related to oregano, sweeter flavor",
+                    "Perennial treated as annual",
+                    "Harvest before flowering",
+                    "Dries well for storage",
+                    "More delicate than oregano",
+                    "Good in containers"
+                ],
+                care: "Moderate watering, light fertilizer, prune regularly",
+                pests: "Watch for aphids, spider mites. Generally pest-resistant",
+                companion: "Plant near vegetables. Attracts beneficial insects"
+            },
+            {
+                name: "Bay Leaf",
+                tagalog: "Laurel",
+                icon: "🍃",
+                season: "Year-round (plant seedlings)",
+                spacing: "2-3m apart if ground planting",
+                depth: "Plant seedlings at soil level",
+                germination: "Plant from seedlings",
+                harvest: "1-2 years, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days",
+                soil: "Well-draining, slightly acidic",
+                container: "30L+ pot, prune to keep small",
+                tips: [
+                    "Slow-growing evergreen tree",
+                    "Can be kept pruned in containers",
+                    "Fresh or dried leaves for cooking",
+                    "Very long-lived plant",
+                    "Harvest mature leaves",
+                    "Drought-tolerant once established"
+                ],
+                care: "Moderate watering, minimal fertilizer, prune to shape",
+                pests: "Watch for scale insects, psyllids. Generally pest-free",
+                companion: "Plant alone or as border. Too large for intercropping"
+            },
+            {
+                name: "Lemon Balm",
+                tagalog: "Lemon Balm",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "40-50cm apart",
+                depth: "Plant from cuttings or divisions",
+                germination: "10-14 days from seed",
+                harvest: "60 days, continuous",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, moisture-retaining",
+                container: "15L pot (contains spread)",
+                tips: [
+                    "Perennial herb, lemon-scented",
+                    "Can be invasive, grow in containers",
+                    "Harvest before flowering",
+                    "Makes excellent tea",
+                    "Attracts bees and pollinators",
+                    "Self-seeds readily"
+                ],
+                care: "Daily watering, contain in pots, harvest frequently",
+                pests: "Watch for aphids, spider mites. Generally hardy",
+                companion: "Grow in containers. Attracts beneficial insects"
+            },
+            {
+                name: "Stevia",
+                tagalog: "Stevia",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "Plant from cuttings or seedlings",
+                germination: "Plant from cuttings (seeds difficult)",
+                harvest: "90-120 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Well-draining, slightly acidic",
+                container: "15L pot minimum",
+                tips: [
+                    "Natural zero-calorie sweetener",
+                    "Leaves are 30x sweeter than sugar",
+                    "Harvest leaves for tea or drying",
+                    "Grows well in tropical climate",
+                    "Easy from cuttings",
+                    "Perennial in warm areas"
+                ],
+                care: "Daily watering, monthly fertilizer, pinch for bushy growth",
+                pests: "Watch for aphids, whiteflies. Generally pest-resistant",
+                companion: "Plant with vegetables. No known conflicts"
+            },
+            {
+                name: "Turmeric",
+                tagalog: "Luyang Dilaw",
+                icon: "🫚",
+                season: "Year-round (best: start of wet season)",
+                spacing: "25-30cm apart",
+                depth: "5-8cm deep",
+                germination: "14-21 days",
+                harvest: "7-10 months",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "30cm deep, wide pot",
+                tips: [
+                    "Plant rhizome pieces with buds",
+                    "Related to ginger, similar care",
+                    "Prefers partial shade",
+                    "Harvest when leaves yellow",
+                    "Boil and dry for powder",
+                    "Medicinal and culinary uses"
+                ],
+                care: "Daily watering, monthly compost, provide shade",
+                pests: "Watch for rhizome rot in waterlogged soil. Generally pest-free",
+                companion: "Plant with ginger, under fruit trees"
+            },
+            {
+                name: "Galangal",
+                tagalog: "Langkawas",
+                icon: "🫚",
+                season: "Year-round (best: start of wet season)",
+                spacing: "30cm apart",
+                depth: "5-8cm deep",
+                germination: "14-28 days",
+                harvest: "8-12 months",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, prefers moist conditions",
+                soil: "Rich, well-draining",
+                container: "30cm deep pot",
+                tips: [
+                    "Related to ginger and turmeric",
+                    "Used in Southeast Asian cooking",
+                    "More fibrous than ginger",
+                    "Harvest mature rhizomes",
+                    "Leave some rhizomes for next crop",
+                    "Prefers humid tropical conditions"
+                ],
+                care: "Daily watering, monthly compost, partial shade best",
+                pests: "Generally pest-resistant. Watch for root rot",
+                companion: "Plant with ginger family, under shade trees"
+            },
+            {
+                name: "Winged Bean Leaves",
+                tagalog: "Dahon ng Sigarilyas",
+                icon: "🥬",
+                season: "Year-round",
+                spacing: "Same as winged bean (30cm)",
+                depth: "Same as winged bean (2cm)",
+                germination: "7-10 days",
+                harvest: "Continuous from 30 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, fertile",
+                container: "20L pot with trellis",
+                tips: [
+                    "Young leaves and shoots edible",
+                    "Pick tender growing tips",
+                    "High in protein and vitamins",
+                    "Harvest regularly for tender greens",
+                    "Don't over-harvest from one plant",
+                    "Taste similar to spinach"
+                ],
+                care: "Same care as winged bean, harvest shoots regularly",
+                pests: "Watch for aphids. Generally pest-resistant",
+                companion: "Same as winged bean planting"
+            },
+            {
+                name: "Jicama",
+                tagalog: "Singkamas",
+                icon: "🥔",
+                season: "Year-round (best: dry season)",
+                spacing: "30cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "5-9 months for roots",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, regular moisture",
+                soil: "Deep, loose, well-draining",
+                container: "Not recommended, needs deep soil",
+                tips: [
+                    "Grow for crisp, sweet tubers",
+                    "Remove flowers to increase root size",
+                    "Long growing season",
+                    "Harvest when leaves die back",
+                    "Popular raw or in salads",
+                    "Vines can climb, provide support"
+                ],
+                care: "Regular watering, monthly fertilizer, remove flowers",
+                pests: "Watch for aphids, beetles. Generally pest-resistant",
+                companion: "Plant with corn, beans. Needs space"
+            },
+            {
+                name: "Sponge Gourd",
+                tagalog: "Patola",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "100cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, needs consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "30L pot with strong trellis",
+                tips: [
+                    "Popular Filipino vegetable",
+                    "Needs strong trellis support",
+                    "Harvest young for eating (30-40cm)",
+                    "Let mature for natural sponges",
+                    "Hand-pollinate for better fruit set",
+                    "Very productive vine"
+                ],
+                care: "Daily watering, weekly fertilizer, train on trellis",
+                pests: "Watch for fruit flies, aphids. Use protective bags",
+                companion: "Plant with beans, radish. Needs full sun"
+            },
+            {
+                name: "Ivy Gourd",
+                tagalog: "Tindora/Kundol Baging",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "60cm apart",
+                depth: "2cm deep or plant cuttings",
+                germination: "7-14 days",
+                harvest: "60 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately fertile",
+                container: "20L pot with trellis",
+                tips: [
+                    "Perennial climbing vine",
+                    "Harvest small fruits 4-5cm long",
+                    "Grows from seeds or cuttings",
+                    "Very easy to grow",
+                    "Can become invasive",
+                    "Young leaves also edible"
+                ],
+                care: "Moderate watering, minimal fertilizer, control spread",
+                pests: "Watch for fruit flies, aphids. Generally pest-resistant",
+                companion: "Plant on fences. Contains aggressive growth"
+            },
+            {
+                name: "Malabar Spinach",
+                tagalog: "Alugbati (climbing type)",
+                icon: "🥬",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "1cm deep or plant cuttings",
+                germination: "7-10 days",
+                harvest: "30-40 days, continuous",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, needs moisture",
+                soil: "Rich, moist, well-draining",
+                container: "15L pot with support",
+                tips: [
+                    "Heat-loving climbing spinach",
+                    "Red and green varieties available",
+                    "Harvest young leaves and tips",
+                    "Mucilaginous texture when cooked",
+                    "Grows vigorously in hot weather",
+                    "Easy from cuttings"
+                ],
+                care: "Daily watering, monthly fertilizer, provide trellis",
+                pests: "Generally pest-free. Very hardy plant",
+                companion: "Plant with beans, corn. Good shade provider"
+            },
+            {
+                name: "Water Spinach",
+                tagalog: "Kangkong (aquatic)",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "15cm apart in water",
+                depth: "Plant cuttings in mud/water",
+                germination: "5-7 days from cuttings",
+                harvest: "20-30 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Grow in water or very wet soil",
+                soil: "Submerged or saturated mud",
+                container: "Wide shallow container with water",
+                tips: [
+                    "Aquatic kangkong variety",
+                    "Grows in ponds or water containers",
+                    "Harvest by cutting stems",
+                    "Regrows very quickly",
+                    "More tender than land kangkong",
+                    "Can purify water naturally"
+                ],
+                care: "Keep submerged, harvest every 2 weeks, full sun",
+                pests: "Generally pest-free in water culture",
+                companion: "Grows with watercress, taro in water gardens"
+            },
+            {
+                name: "Labanos Leaves",
+                tagalog: "Dahon ng Labanos",
+                icon: "🥬",
+                season: "Year-round (best: cool months)",
+                spacing: "Same as radish (10cm)",
+                depth: "1cm deep",
+                germination: "4-6 days",
+                harvest: "Continuous from 20 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Every 2 days",
+                soil: "Well-draining",
+                container: "15cm deep pot",
+                tips: [
+                    "Young radish leaves are edible",
+                    "Peppery flavor, nutritious",
+                    "Harvest outer leaves regularly",
+                    "Don't remove too many from one plant",
+                    "Popular in Filipino dishes",
+                    "Can grow specifically for greens"
+                ],
+                care: "Keep soil moist, harvest young leaves",
+                pests: "Watch for flea beetles. Generally hardy",
+                companion: "Same as radish companion planting"
+            },
+            {
+                name: "Saluyot",
+                tagalog: "Saluyot/Jute Leaves",
+                icon: "🌿",
+                season: "Year-round (thrives in hot weather)",
+                spacing: "40-50cm apart",
+                depth: "1cm deep",
+                germination: "5-7 days",
+                harvest: "45-60 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately fertile",
+                container: "20L pot minimum",
+                tips: [
+                    "Traditional Filipino vegetable",
+                    "Very nutritious leafy green",
+                    "Harvest young leaves and tips",
+                    "Cut and come again harvest",
+                    "Mucilaginous when cooked",
+                    "Thrives in hot humid weather"
+                ],
+                care: "Moderate watering, minimal fertilizer, pinch tips",
+                pests: "Watch for aphids, caterpillars. Generally pest-resistant",
+                companion: "Plant with corn, beans. Heat-tolerant companion"
+            },
+            {
+                name: "Sweet Corn",
+                tagalog: "Mais Matamis",
+                icon: "🌽",
+                season: "Year-round (best: dry season)",
+                spacing: "30cm apart in blocks",
+                depth: "3-5cm deep",
+                germination: "7-10 days",
+                harvest: "70-90 days",
+                sunlight: "8+ hours full sun",
+                water: "Every 2-3 days, deep watering",
+                soil: "Rich, well-draining with compost",
+                container: "Not ideal, needs blocks for pollination",
+                tips: [
+                    "Sweeter than field corn",
+                    "Plant in blocks for wind pollination",
+                    "Harvest when kernels are milky",
+                    "Use immediately after harvest",
+                    "Sugar converts to starch quickly",
+                    "Plant minimum 4x4 block"
+                ],
+                care: "Deep watering, fertilize when knee-high and tasseling",
+                pests: "Watch for corn borers, birds. Use netting",
+                companion: "Plant with beans, squash. Avoid tomatoes"
+            },
+            {
+                name: "Cherry Tomato",
+                tagalog: "Cherry Tomato",
+                icon: "🍅",
+                season: "Year-round (best: Nov-Apr)",
+                spacing: "60cm apart",
+                depth: "0.5cm deep",
+                germination: "7-14 days",
+                harvest: "60-70 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining, pH 6.0-6.8",
+                container: "20L pot with cage/stake",
+                tips: [
+                    "Smaller, sweeter than regular tomatoes",
+                    "More disease-resistant",
+                    "Indeterminate varieties produce longer",
+                    "Great for containers",
+                    "Harvest when fully colored",
+                    "Very productive plants"
+                ],
+                care: "Daily watering, monthly fertilizer, provide support",
+                pests: "Watch for aphids, fruit worms. Use neem oil",
+                companion: "Plant with basil, marigolds. Avoid potatoes"
+            },
+            {
+                name: "Snake Bean",
+                tagalog: "Sitaw (extra long variety)",
+                icon: "🫘",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "50-65 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderate fertility",
+                container: "20L pot with tall trellis",
+                tips: [
+                    "Extra long pods up to 1 meter",
+                    "Install very tall trellis",
+                    "Harvest when pods are firm",
+                    "Very productive variety",
+                    "Related to yardlong bean",
+                    "Popular in Asian cuisine"
+                ],
+                care: "Moderate watering, minimal fertilizer, tall support",
+                pests: "Watch for bean beetles, pod borers. Use neem spray",
+                companion: "Plant with corn, radish. Avoid onions"
+            },
+            {
+                name: "Bush Bean",
+                tagalog: "Sitaw (bush type)",
+                icon: "🫘",
+                season: "Year-round",
+                spacing: "15-20cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "50-60 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining",
+                container: "15L pot, no trellis needed",
+                tips: [
+                    "Compact, no trellis needed",
+                    "Good for small gardens",
+                    "All pods ripen at once",
+                    "Easier than pole beans",
+                    "Succession plant every 2 weeks",
+                    "Perfect for containers"
+                ],
+                care: "Moderate watering, minimal fertilizer, no support needed",
+                pests: "Watch for bean beetles, aphids. Generally hardy",
+                companion: "Plant with corn, carrots. Avoid onions"
+            },
+            {
+                name: "Purple Cabbage",
+                tagalog: "Repolyong Pula",
+                icon: "🥬",
+                season: "Oct-Mar (cool season)",
+                spacing: "40-50cm apart",
+                depth: "0.5cm deep",
+                germination: "7-10 days",
+                harvest: "80-130 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining, pH 6.0-7.5",
+                container: "20L pot minimum",
+                tips: [
+                    "Higher antioxidants than green cabbage",
+                    "Same care as regular cabbage",
+                    "Beautiful purple color",
+                    "Takes longer to mature",
+                    "Great for salads and slaws",
+                    "Grows best in highlands"
+                ],
+                care: "Daily watering, fertilize every 3 weeks, mulch well",
+                pests: "Watch for cabbage worms, aphids. Use BT spray",
+                companion: "Plant with onions, celery. Avoid strawberries"
+            },
+            {
+                name: "Pako Fern",
+                tagalog: "Pako (Edible Fern)",
+                icon: "🌿",
+                season: "Year-round (best: wet season)",
+                spacing: "30cm apart",
+                depth: "Plant rhizomes 5cm deep",
+                germination: "Plant from rhizomes/spores",
+                harvest: "60 days, continuous",
+                sunlight: "2-4 hours shade to partial sun",
+                water: "Daily, needs high moisture",
+                soil: "Rich, moist, slightly acidic",
+                container: "20L pot, keep very moist",
+                tips: [
+                    "Traditional Filipino vegetable",
+                    "Harvest young fiddleheads (coiled fronds)",
+                    "Grows in shaded, moist areas",
+                    "Popular in salads (ensalada)",
+                    "High in antioxidants",
+                    "Prefers humid forest-like conditions"
+                ],
+                care: "Daily watering, high humidity, deep shade, rich soil",
+                pests: "Generally pest-free. Watch for slugs",
+                companion: "Grows under fruit trees, in shade gardens"
+            },
+            {
+                name: "Kulitis",
+                tagalog: "Kulitis/Amaranth Leaves",
+                icon: "🌿",
+                season: "Year-round (thrives in hot weather)",
+                spacing: "20-30cm apart",
+                depth: "0.5cm deep",
+                germination: "5-7 days",
+                harvest: "30-45 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately fertile",
+                container: "15L pot minimum",
+                tips: [
+                    "Traditional Filipino leafy vegetable",
+                    "Red and green varieties",
+                    "Very nutritious, high in iron",
+                    "Harvest young leaves and tender stems",
+                    "Heat and drought tolerant",
+                    "Self-seeds readily"
+                ],
+                care: "Moderate watering, minimal fertilizer, harvest regularly",
+                pests: "Watch for aphids, leaf miners. Generally hardy",
+                companion: "Plant with tomatoes, peppers. Good companion"
+            },
+            {
+                name: "Talinum",
+                tagalog: "Talinum/Philippine Spinach",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "25-30cm apart",
+                depth: "0.5cm deep or plant cuttings",
+                germination: "7-10 days",
+                harvest: "40-50 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, drought-tolerant",
+                soil: "Well-draining, tolerates poor soil",
+                container: "15L pot minimum",
+                tips: [
+                    "Hardy Filipino leafy vegetable",
+                    "Succulent-like leaves",
+                    "Very drought-tolerant",
+                    "Grows from seeds or cuttings",
+                    "Mild flavor, slightly mucilaginous",
+                    "Low maintenance plant"
+                ],
+                care: "Minimal watering, tolerates neglect, harvest tips",
+                pests: "Generally pest-free. Very hardy plant",
+                companion: "Plant anywhere. Excellent beginner plant"
+            },
+            {
+                name: "Labong",
+                tagalog: "Labong (Bamboo Shoots)",
+                icon: "🎋",
+                season: "Year-round (shoots in wet season)",
+                spacing: "3-5m apart for clumps",
+                depth: "Plant from rhizomes",
+                germination: "Plant established bamboo",
+                harvest: "2-3 years, then continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days when young",
+                soil: "Well-draining, rich",
+                container: "Not recommended, spreads aggressively",
+                tips: [
+                    "Harvest young tender shoots",
+                    "Pick shoots before they harden",
+                    "Cook before eating (remove bitterness)",
+                    "Very common in Philippines",
+                    "Plant clumping varieties to control spread",
+                    "Traditional ingredient in many dishes"
+                ],
+                care: "Minimal care once established, contain spread",
+                pests: "Generally pest-free. Very hardy",
+                companion: "Plant away from gardens. Extremely invasive"
+            },
+            {
+                name: "Bataw",
+                tagalog: "Bataw (Hyacinth Bean)",
+                icon: "🫘",
+                season: "Year-round",
+                spacing: "40cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "70-90 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderate fertility",
+                container: "20L pot with trellis",
+                tips: [
+                    "Traditional Filipino bean",
+                    "Purple flowers are ornamental",
+                    "Young pods and mature seeds edible",
+                    "Boil pods before eating",
+                    "Nitrogen-fixing legume",
+                    "Drought-tolerant once established"
+                ],
+                care: "Moderate watering, minimal fertilizer, provide trellis",
+                pests: "Watch for pod borers, aphids. Generally hardy",
+                companion: "Plant with corn, root crops. Improves soil"
+            },
+            {
+                name: "Talong Baging",
+                tagalog: "Talong Baging (Wild Eggplant)",
+                icon: "🍆",
+                season: "Year-round",
+                spacing: "80-100cm apart",
+                depth: "0.5cm deep",
+                germination: "10-15 days",
+                harvest: "80-100 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, tolerates poor soil",
+                container: "30L pot minimum",
+                tips: [
+                    "Native Philippine eggplant variety",
+                    "Small round fruits in clusters",
+                    "More bitter than regular eggplant",
+                    "Very hardy and disease-resistant",
+                    "Used in pinakbet and other dishes",
+                    "Perennial in tropical conditions"
+                ],
+                care: "Moderate watering, minimal fertilizer, very hardy",
+                pests: "More resistant than regular eggplant",
+                companion: "Plant with beans, marigolds. Avoid tomatoes"
+            },
+            {
+                name: "Upo Tagalog",
+                tagalog: "Upo Tagalog (Native Bottle Gourd)",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "100cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "55-75 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining",
+                container: "30L pot with strong trellis",
+                tips: [
+                    "Local Philippine variety",
+                    "Shorter and rounder than Chinese type",
+                    "More flavorful than hybrid varieties",
+                    "Harvest young and tender",
+                    "Needs strong trellis",
+                    "Save seeds from best fruits"
+                ],
+                care: "Daily watering, weekly fertilizer, train on trellis",
+                pests: "Watch for fruit flies. Use protective bags",
+                companion: "Plant with beans, radish. Full sun location"
+            },
+            {
+                name: "Native Tomato",
+                tagalog: "Kamatis na Kinalamayan",
+                icon: "🍅",
+                season: "Year-round (best: Nov-Apr)",
+                spacing: "50cm apart",
+                depth: "0.5cm deep",
+                germination: "7-14 days",
+                harvest: "55-75 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining, pH 6.0-6.8",
+                container: "20L pot with support",
+                tips: [
+                    "Local Philippine tomato variety",
+                    "More adapted to local conditions",
+                    "Disease-resistant",
+                    "Smaller fruits, intense flavor",
+                    "Better heat tolerance",
+                    "Save seeds for replanting"
+                ],
+                care: "Daily watering, monthly compost, stake plants",
+                pests: "More resistant than hybrid varieties",
+                companion: "Plant with basil, marigolds. Repels pests"
+            },
+            {
+                name: "Kamote Tops",
+                tagalog: "Talbos ng Kamote",
+                icon: "🥬",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "Plant vine cuttings",
+                germination: "7-14 days from cuttings",
+                harvest: "30 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Loose, well-draining",
+                container: "20L pot, can be grown just for leaves",
+                tips: [
+                    "Nutritious leafy vegetable",
+                    "Harvest young leaves and tender stems",
+                    "Popular in Filipino cuisine",
+                    "Very easy to grow from cuttings",
+                    "Can grow without forming tubers",
+                    "Continuous harvest vegetable"
+                ],
+                care: "Moderate watering, minimal fertilizer, pinch tips",
+                pests: "Watch for sweet potato weevils on stems. Generally hardy",
+                companion: "Plant with beans, corn. Space-efficient"
+            },
+            {
+                name: "Kadyos",
+                tagalog: "Kadyos (Pigeon Pea)",
+                icon: "🫛",
+                season: "Year-round",
+                spacing: "100cm apart",
+                depth: "3-4cm deep",
+                germination: "10-15 days",
+                harvest: "120-180 days for seeds",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days, drought-tolerant",
+                soil: "Well-draining, tolerates poor soil",
+                container: "Not recommended, grows into shrub",
+                tips: [
+                    "Important ingredient in KBL dish",
+                    "Grows into woody shrub 2-3m tall",
+                    "Very drought-tolerant",
+                    "Nitrogen-fixing legume",
+                    "Young pods and mature seeds edible",
+                    "Long-lived perennial in tropics"
+                ],
+                care: "Minimal watering, no fertilizer needed, very hardy",
+                pests: "Generally pest-free. Pod borers occasionally",
+                companion: "Plant as hedge or border. Improves soil"
+            },
+            {
+                name: "Sitaw Tagalog",
+                tagalog: "Sitaw Tagalog (Native Long Bean)",
+                icon: "🫘",
+                season: "Year-round",
+                spacing: "30cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "55-65 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderate fertility",
+                container: "20L pot with trellis",
+                tips: [
+                    "Local Philippine variety",
+                    "More adapted to tropical conditions",
+                    "Disease and pest resistant",
+                    "Better flavor than hybrids",
+                    "Pods stay tender longer",
+                    "Save seeds from best plants"
+                ],
+                care: "Moderate watering, minimal fertilizer, trellis support",
+                pests: "More resistant than hybrid varieties",
+                companion: "Plant with corn, radish. Avoid onions"
+            },
+            {
+                name: "Sigarilyas Tagalog",
+                tagalog: "Sigarilyas Tagalog (Native Winged Bean)",
+                icon: "🫛",
+                season: "Year-round",
+                spacing: "35cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "65-85 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, fertile",
+                container: "20L pot with trellis",
+                tips: [
+                    "Local variety, more flavorful",
+                    "Tubers also edible after 6-8 months",
+                    "Pods have distinctive 4 wings",
+                    "Young leaves, flowers all edible",
+                    "Better adapted to Philippine climate",
+                    "Nitrogen-fixing for soil improvement"
+                ],
+                care: "Moderate watering, minimal fertilizer, strong trellis",
+                pests: "More resistant to local pests",
+                companion: "Plant with corn, root vegetables. Enriches soil"
+            },
+            {
+                name: "Patani",
+                tagalog: "Patani (Lima Bean)",
+                icon: "🫘",
+                season: "Year-round (best: dry season)",
+                spacing: "50cm apart",
+                depth: "3-4cm deep",
+                germination: "7-14 days",
+                harvest: "75-90 days for green pods",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately rich",
+                container: "25L pot with support",
+                tips: [
+                    "Popular in Ilocano and Visayan cuisine",
+                    "Large flat beans in pods",
+                    "Harvest young for tender beans",
+                    "Can be grown bush or pole type",
+                    "Rich, buttery flavor",
+                    "Essential in dishes like dinengdeng"
+                ],
+                care: "Regular watering, light fertilizer, support for pole types",
+                pests: "Watch for pod borers, aphids. Use neem spray",
+                companion: "Plant with corn, squash. Avoid onions"
+            },
+            {
+                name: "Togue",
+                tagalog: "Togue (Mung Bean Sprouts)",
+                icon: "🌱",
+                season: "Year-round (indoor sprouting)",
+                spacing: "Grown in trays, not in soil",
+                depth: "No soil needed",
+                germination: "3-5 days",
+                harvest: "3-5 days for sprouts",
+                sunlight: "Grow in darkness for white sprouts",
+                water: "Rinse 2-3 times daily",
+                soil: "No soil, use sprouting trays",
+                container: "Shallow trays or jars",
+                tips: [
+                    "Essential ingredient in Filipino cooking",
+                    "Soak munggo seeds overnight",
+                    "Keep in dark for white sprouts",
+                    "Rinse thoroughly multiple times daily",
+                    "Ready in just 3-5 days",
+                    "No soil or sunlight needed"
+                ],
+                care: "Keep moist, rinse often, harvest before roots too long",
+                pests: "No pests in indoor sprouting",
+                companion: "Not applicable for sprouts"
+            },
+            {
+                name: "Ampalaya Tagalog",
+                tagalog: "Ampalaya Tagalog (Native Bitter Gourd)",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "100cm apart",
+                depth: "2cm deep",
+                germination: "8-12 days",
+                harvest: "60-75 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining",
+                container: "30L pot with strong trellis",
+                tips: [
+                    "Native variety, smaller fruits",
+                    "More bitter than hybrid varieties",
+                    "Better adapted to local climate",
+                    "Disease-resistant",
+                    "Traditional in pinakbet and other dishes",
+                    "Save seeds from healthiest plants"
+                ],
+                care: "Daily watering, weekly organic fertilizer, train vines",
+                pests: "More resistant to fruit flies than hybrids",
+                companion: "Plant with corn, radish. Avoid potatoes"
+            },
+            {
+                name: "Puso ng Saging",
+                tagalog: "Puso ng Saging (Banana Heart)",
+                icon: "💜",
+                season: "Year-round (from banana plants)",
+                spacing: "Plant banana 2-3m apart",
+                depth: "Plant from suckers",
+                germination: "From established banana plants",
+                harvest: "When flower appears (9-12 months)",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, deep, well-draining",
+                container: "Not recommended for containers",
+                tips: [
+                    "Harvest from flowering banana plant",
+                    "Cut before flowers fully open",
+                    "Peel outer layers for tender heart",
+                    "Popular in kinilaw and other dishes",
+                    "Nutritious vegetable",
+                    "One harvest per banana stem"
+                ],
+                care: "Care for banana plant, harvest flower once it appears",
+                pests: "Follow banana plant pest management",
+                companion: "Part of banana companion planting"
+            },
+            {
+                name: "Dahon ng Sili",
+                tagalog: "Dahon ng Sili (Chili Leaves)",
+                icon: "🌶️",
+                season: "Year-round",
+                spacing: "Same as chili plants (40cm)",
+                depth: "0.5cm deep",
+                germination: "10-20 days",
+                harvest: "Continuous from 60 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately rich",
+                container: "15L pot minimum",
+                tips: [
+                    "Young chili leaves are edible",
+                    "Pick tender growing tips",
+                    "Popular in tinola and other soups",
+                    "Don't overharvest from one plant",
+                    "Mild peppery flavor",
+                    "High in vitamins and minerals"
+                ],
+                care: "Same as chili care, harvest tips moderately",
+                pests: "Follow chili pepper pest management",
+                companion: "Same as chili companion planting"
+            },
+            {
+                name: "Malunggay Leaves",
+                tagalog: "Dahon ng Malunggay",
+                icon: "🌿",
+                season: "Year-round",
+                spacing: "2m apart for trees",
+                depth: "Plant cuttings 30cm deep",
+                germination: "14-21 days from cuttings",
+                harvest: "Continuous from 60 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days",
+                soil: "Well-draining, tolerates poor soil",
+                container: "40L+ pot, prune regularly",
+                tips: [
+                    "Superfood leaves, very nutritious",
+                    "Strip leaves from branches",
+                    "Prune regularly for bushy growth",
+                    "Essential in many Filipino dishes",
+                    "Fast-growing, easy to maintain",
+                    "Can harvest year-round"
+                ],
+                care: "Minimal watering, prune monthly for more leaves",
+                pests: "Generally pest-free, very hardy",
+                companion: "Plant as fence, provides light shade"
+            },
+            {
+                name: "Talong Ilocos",
+                tagalog: "Talong Ilocos (Ilocano Eggplant)",
+                icon: "🍆",
+                season: "Year-round",
+                spacing: "70cm apart",
+                depth: "0.5cm deep",
+                germination: "10-15 days",
+                harvest: "75-95 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Loamy, well-draining",
+                container: "30L pot minimum",
+                tips: [
+                    "Long thin purple fruits",
+                    "Traditional Ilocano variety",
+                    "Perfect for pinakbet",
+                    "More heat-tolerant",
+                    "Less bitter than other varieties",
+                    "Productive in tropical lowlands"
+                ],
+                care: "Regular watering, fertilize bi-weekly, stake plants",
+                pests: "Watch for flea beetles, fruit borers. Neem spray",
+                companion: "Plant with beans, marigolds. Avoid tomatoes"
+            },
+            {
+                name: "Upo Batangas",
+                tagalog: "Upo Batangas (Batangas Bottle Gourd)",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "120cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, needs moisture",
+                soil: "Rich, well-draining",
+                container: "30L pot with strong trellis",
+                tips: [
+                    "Batangas heirloom variety",
+                    "Long cylindrical fruits",
+                    "Sweet, tender flesh",
+                    "Better flavor than hybrids",
+                    "Traditional variety in Tagalog regions",
+                    "Save seeds for next planting"
+                ],
+                care: "Daily watering, weekly fertilizer, strong support",
+                pests: "Watch for fruit flies. Use fruit bags",
+                companion: "Plant with beans, radish. Full sun"
+            },
+            {
+                name: "Kamatis Bisaya",
+                tagalog: "Kamatis Bisaya (Visayan Tomato)",
+                icon: "🍅",
+                season: "Year-round (best: Nov-Apr)",
+                spacing: "60cm apart",
+                depth: "0.5cm deep",
+                germination: "7-14 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining, pH 6.0-6.8",
+                container: "25L pot with support",
+                tips: [
+                    "Visayan heirloom variety",
+                    "Medium-sized round fruits",
+                    "Intense tomato flavor",
+                    "Better disease resistance",
+                    "Adapted to tropical heat",
+                    "Popular in Visayan cooking"
+                ],
+                care: "Daily watering, monthly compost, stake well",
+                pests: "More resistant to local diseases",
+                companion: "Plant with basil, marigolds. Repels insects"
+            },
+            {
+                name: "Patola Bisaya",
+                tagalog: "Patola Bisaya (Visayan Sponge Gourd)",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "120cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "65-85 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining",
+                container: "30L pot with trellis",
+                tips: [
+                    "Visayan heirloom variety",
+                    "Longer, more slender fruits",
+                    "Sweeter than common varieties",
+                    "Better adapted to humid conditions",
+                    "Traditional in Visayan dishes",
+                    "Save seeds from best fruits"
+                ],
+                care: "Daily watering, weekly fertilizer, train on trellis",
+                pests: "More resistant to local pests",
+                companion: "Plant with beans, radish. Needs sun"
+            },
+            {
+                name: "Mustasa Tagalog",
+                tagalog: "Mustasa Tagalog (Native Mustard)",
+                icon: "🥬",
+                season: "Year-round",
+                spacing: "20cm apart",
+                depth: "0.5cm deep",
+                germination: "5-7 days",
+                harvest: "35-50 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining",
+                container: "15L pot minimum",
+                tips: [
+                    "Local variety, more heat-tolerant",
+                    "Broader leaves than Chinese mustard",
+                    "Essential in sinigang and other soups",
+                    "Harvest outer leaves continuously",
+                    "Better suited to lowland tropics",
+                    "Self-seeds readily in gardens"
+                ],
+                care: "Daily watering, monthly compost, harvest regularly",
+                pests: "Watch for cabbage worms. Use BT spray",
+                companion: "Plant with onions, herbs. Avoid strawberries"
+            },
+            {
+                name: "Pechay Native",
+                tagalog: "Pechay Tagalog (Native Bok Choy)",
+                icon: "🥬",
+                season: "Year-round",
+                spacing: "20cm apart",
+                depth: "0.5cm deep",
+                germination: "5-7 days",
+                harvest: "30-45 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, keep moist",
+                soil: "Rich, moisture-retaining",
+                container: "12L pot minimum",
+                tips: [
+                    "Local variety adapted to heat",
+                    "Smaller than Chinese bok choy",
+                    "More tender and flavorful",
+                    "Thrives in tropical lowlands",
+                    "Quick-growing for succession planting",
+                    "Perfect for pancit and other dishes"
+                ],
+                care: "Daily watering, light fertilizer, partial shade",
+                pests: "Watch for aphids, caterpillars. Hand-pick or spray",
+                companion: "Plant with lettuce, herbs. Good companion"
+            },
+            {
+                name: "Repolyo Baguio",
+                tagalog: "Repolyo Baguio (Baguio Cabbage)",
+                icon: "🥬",
+                season: "Oct-Mar (cool highlands only)",
+                spacing: "45cm apart",
+                depth: "0.5cm deep",
+                germination: "7-10 days",
+                harvest: "75-100 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining, pH 6.0-7.5",
+                container: "25L pot in cool areas",
+                tips: [
+                    "Grown mainly in Baguio and highland areas",
+                    "Requires cool temperatures 15-20°C",
+                    "Loose-leaf type, not tight heads",
+                    "Cannot grow in hot lowlands",
+                    "Sweeter than regular cabbage",
+                    "Famous Baguio vegetable crop"
+                ],
+                care: "Daily watering, heavy fertilizing, cool conditions essential",
+                pests: "Watch for cabbage worms. Use BT spray",
+                companion: "Plant with onions, celery. Highland crop"
+            },
+            {
+                name: "Sayote Leaves",
+                tagalog: "Talbos ng Sayote",
+                icon: "🥬",
+                season: "Year-round",
+                spacing: "Plant sayote 3-4m apart",
+                depth: "Plant whole fruiting sayote",
+                germination: "From established vines",
+                harvest: "Continuous from 60 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "Not for containers, massive vine",
+                tips: [
+                    "Harvest tender vine tips and young leaves",
+                    "Popular vegetable in Filipino cooking",
+                    "Pick top 20-30cm of growing shoots",
+                    "Very nutritious leafy green",
+                    "Don't overharvest from one vine",
+                    "Regular harvesting promotes bushy growth"
+                ],
+                care: "Care for sayote plant, harvest tips regularly",
+                pests: "Generally pest-free. Very hardy",
+                companion: "Same as chayote companion planting"
+            },
+            {
+                name: "Labanos Tagalog",
+                tagalog: "Labanos Tagalog (Native Radish)",
+                icon: "🥕",
+                season: "Year-round (best: cool months)",
+                spacing: "10cm apart",
+                depth: "1cm deep",
+                germination: "4-6 days",
+                harvest: "30-40 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Every 2 days",
+                soil: "Loose, well-draining",
+                container: "20cm deep pot",
+                tips: [
+                    "Local variety, longer and thinner",
+                    "More pungent than Japanese radish",
+                    "White flesh, green shoulders",
+                    "Popular in Filipino pickles (atchara)",
+                    "Both roots and leaves edible",
+                    "Better adapted to local climate"
+                ],
+                care: "Keep soil moist, harvest promptly when ready",
+                pests: "Watch for flea beetles. Use row covers",
+                companion: "Plant with lettuce, carrots. Avoid hyssop"
+            },
+            {
+                name: "Singkamas Native",
+                tagalog: "Singkamas Tagalog (Native Jicama)",
+                icon: "🥔",
+                season: "Year-round (best: dry season)",
+                spacing: "40cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "6-10 months",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Deep, loose, well-draining",
+                container: "Not recommended, needs depth",
+                tips: [
+                    "Local variety, smaller tubers",
+                    "Sweeter and crunchier than imports",
+                    "Essential in Filipino fruit salads",
+                    "Remove all flowers for bigger roots",
+                    "Long growing season required",
+                    "Harvest when vines die naturally"
+                ],
+                care: "Regular watering, monthly fertilizer, remove flowers",
+                pests: "Watch for aphids on vines. Generally hardy",
+                companion: "Plant with corn, beans. Needs space"
+            },
+            {
+                name: "Kamoteng Kahoy Native",
+                tagalog: "Kamoteng Kahoy Native (Native Cassava)",
+                icon: "🥔",
+                season: "Year-round (plant wet season)",
+                spacing: "100cm apart",
+                depth: "10cm stem cuttings",
+                germination: "Plant stem cuttings",
+                harvest: "10-12 months",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days",
+                soil: "Well-draining, tolerates poor soil",
+                container: "Not for containers",
+                tips: [
+                    "Local sweet variety for cooking",
+                    "White or yellow flesh varieties",
+                    "Better flavor than hybrid types",
+                    "Process within 2 days after harvest",
+                    "Save 30cm stems for replanting",
+                    "Drought-tolerant staple crop"
+                ],
+                care: "Minimal watering after establishment, hill up soil",
+                pests: "Watch for mealybugs. Use clean planting material",
+                companion: "Plant with peanuts, beans. Space well"
+            },
+            {
+                name: "Ube Native",
+                tagalog: "Ube Kinampay (Native Purple Yam)",
+                icon: "🍠",
+                season: "Year-round (plant wet season)",
+                spacing: "120cm apart",
+                depth: "10-15cm deep",
+                germination: "Plant tuber pieces with eyes",
+                harvest: "9-11 months",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, reduce near harvest",
+                soil: "Deep, loose, well-draining",
+                container: "Not for containers, needs depth",
+                tips: [
+                    "True Philippine purple yam",
+                    "Deep purple color, distinct flavor",
+                    "Vines grow on trellis",
+                    "Different from ube halaya varieties",
+                    "Tubers improve after curing",
+                    "Traditional heirloom variety"
+                ],
+                care: "Regular watering, monthly fertilizer, strong trellis",
+                pests: "Watch for yam beetles. Rotate planting areas",
+                companion: "Plant with beans. Avoid root competition"
+            },
+            {
+                name: "Gabi Ilokano",
+                tagalog: "Gabi Ilokano (Ilocano Taro)",
+                icon: "🌱",
+                season: "Year-round (plant wet season)",
+                spacing: "75cm apart",
+                depth: "12-15cm deep",
+                germination: "14-21 days from corms",
+                harvest: "8-10 months",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, prefers wet conditions",
+                soil: "Rich, moisture-retaining",
+                container: "35L deep pot",
+                tips: [
+                    "Ilocano variety, larger corms",
+                    "Used in pinakbet and other dishes",
+                    "Young leaves (gabing saba) also eaten",
+                    "Prefers flooded or very wet soil",
+                    "Handle with gloves when raw",
+                    "Store corms after harvest for replanting"
+                ],
+                care: "Keep very moist, monthly compost, partial shade",
+                pests: "Watch for taro beetles, leaf blight. Remove infected parts",
+                companion: "Plant with kangkong in wet areas. Pond edges"
+            },
+            {
+                name: "Kalabasa Native",
+                tagalog: "Kalabasa Tagalog (Native Squash)",
+                icon: "🎃",
+                season: "Year-round",
+                spacing: "150cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "90-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "Not for containers, large vine",
+                tips: [
+                    "Local variety, dark green skin",
+                    "Orange flesh, dense texture",
+                    "Better flavor than hybrids",
+                    "Perfect for Filipino dishes",
+                    "Can grow on strong trellis",
+                    "Save seeds from best fruits"
+                ],
+                care: "Deep watering, monthly fertilizer, mulch heavily",
+                pests: "Watch for squash bugs. Hand-pick pests",
+                companion: "Plant with corn, beans. Three sisters planting"
+            },
+            {
+                name: "Pipino Tagalog",
+                tagalog: "Pipino Tagalog (Native Cucumber)",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "75cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "55-70 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining",
+                container: "25L pot with trellis",
+                tips: [
+                    "Local variety, smaller fruits",
+                    "Crisp texture, less watery",
+                    "Better flavor than hybrids",
+                    "More disease-resistant",
+                    "Perfect for ensalada and atchara",
+                    "Trellis for straighter fruits"
+                ],
+                care: "Daily watering, weekly fertilizer, train on support",
+                pests: "More resistant to powdery mildew than hybrids",
+                companion: "Plant with beans, corn. Avoid sage"
+            },
+            {
+                name: "Kabatiti",
+                tagalog: "Kabatiti (Fuzzy Melon)",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "100cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "60-75 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "30L pot with strong trellis",
+                tips: [
+                    "Popular Filipino vegetable",
+                    "Fuzzy skin when young",
+                    "Harvest at 20-25cm for tenderness",
+                    "Used in soups and stir-fries",
+                    "Needs strong trellis support",
+                    "More heat-tolerant than cucumber"
+                ],
+                care: "Daily watering, weekly fertilizer, train vines up",
+                pests: "Watch for aphids, fruit flies. Use neem spray",
+                companion: "Plant with beans, radish. Full sun location"
+            },
+            {
+                name: "Bataw Native",
+                tagalog: "Bataw Tagalog (Native Hyacinth Bean)",
+                icon: "🫘",
+                season: "Year-round",
+                spacing: "50cm apart",
+                depth: "2-3cm deep",
+                germination: "7-10 days",
+                harvest: "75-95 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderate fertility",
+                container: "25L pot with trellis",
+                tips: [
+                    "Local variety with purple pods",
+                    "Ornamental purple flowers",
+                    "Young pods must be boiled before eating",
+                    "Mature seeds also edible when cooked",
+                    "Drought-tolerant once established",
+                    "Traditional Visayan and Bicolano crop"
+                ],
+                care: "Moderate watering, minimal fertilizer, provide support",
+                pests: "Watch for pod borers. Generally pest-resistant",
+                companion: "Plant with corn, squash. Improves soil"
+            },
+            {
+                name: "Parya",
+                tagalog: "Parya (Wild Bitter Melon)",
+                icon: "🥒",
+                season: "Year-round",
+                spacing: "80cm apart",
+                depth: "2cm deep",
+                germination: "8-12 days",
+                harvest: "55-70 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily when young, drought-tolerant later",
+                soil: "Well-draining, tolerates poor soil",
+                container: "25L pot with trellis",
+                tips: [
+                    "Small wild bitter gourd variety",
+                    "Very bitter, medicinal properties",
+                    "Orange when ripe, red seeds visible",
+                    "Self-seeds readily in gardens",
+                    "More disease-resistant than cultivated types",
+                    "Traditional folk medicine plant"
+                ],
+                care: "Moderate watering, minimal care, very hardy",
+                pests: "Generally pest-free, very hardy plant",
+                companion: "Plant on fences. Can become weedy"
+            },
+            {
+                name: "Kondol Native",
+                tagalog: "Kondol Tagalog (Native Winter Melon)",
+                icon: "🍈",
+                season: "Year-round (best: dry season)",
+                spacing: "180cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "95-130 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "Not for containers, massive fruits",
+                tips: [
+                    "Local variety, large fruits 8-15kg",
+                    "White waxy coating when mature",
+                    "Can store for months after harvest",
+                    "Used in soups and sweets",
+                    "Support heavy fruits with slings",
+                    "One fruit per vine for largest size"
+                ],
+                care: "Regular watering, monthly fertilizer, strong support",
+                pests: "Watch for fruit flies. Use protective bags",
+                companion: "Plant with corn. Needs lots of space"
+            },
+            {
+                name: "Talong Puti",
+                tagalog: "Talong Puti (White Eggplant)",
+                icon: "🍆",
+                season: "Year-round",
+                spacing: "65cm apart",
+                depth: "0.5cm deep",
+                germination: "10-15 days",
+                harvest: "75-90 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Loamy, well-draining",
+                container: "25L pot minimum",
+                tips: [
+                    "White-skinned Filipino variety",
+                    "Round to oval shape",
+                    "Mild, less bitter flavor",
+                    "Popular in tortang talong",
+                    "More heat-tolerant than purple types",
+                    "Harvest when skin is glossy"
+                ],
+                care: "Regular watering, bi-weekly fertilizer, stake plants",
+                pests: "Watch for flea beetles, borers. Neem oil spray",
+                companion: "Plant with beans, marigolds. Avoid tomatoes"
+            },
+            {
+                name: "Sili Labuyo",
+                tagalog: "Sili Labuyo (Bird's Eye Chili)",
+                icon: "🌶️",
+                season: "Year-round",
+                spacing: "40cm apart",
+                depth: "0.5cm deep",
+                germination: "10-21 days",
+                harvest: "75-95 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, moderately rich",
+                container: "15L pot minimum",
+                tips: [
+                    "Native Philippine very hot chili",
+                    "Small peppers, extremely spicy",
+                    "Essential in Filipino cooking",
+                    "Perennial in tropical conditions",
+                    "Can be grown from fresh seeds",
+                    "Dry peppers for long storage"
+                ],
+                care: "Moderate watering, monthly fertilizer, full sun",
+                pests: "Watch for aphids. Generally pest-resistant",
+                companion: "Plant with tomatoes, basil. Repels pests"
+            },
+            {
+                name: "Luya Native",
+                tagalog: "Luya Tagalog (Native Ginger)",
+                icon: "🫚",
+                season: "Year-round (plant wet season)",
+                spacing: "25cm apart",
+                depth: "5-8cm deep",
+                germination: "14-21 days",
+                harvest: "9-11 months",
+                sunlight: "4-6 hours partial shade",
+                water: "Daily, needs moisture",
+                soil: "Rich, loose, well-draining",
+                container: "35cm deep wide pot",
+                tips: [
+                    "Local variety, more aromatic",
+                    "Yellow flesh, strong flavor",
+                    "Essential in Filipino cooking",
+                    "Harvest when leaves yellow",
+                    "Save rhizomes for replanting",
+                    "Prefers humid shaded conditions"
+                ],
+                care: "Daily watering, monthly compost, provide shade",
+                pests: "Watch for root rot in waterlogged soil",
+                companion: "Plant under fruit trees, with turmeric"
+            },
+            {
+                name: "Tanglad Native",
+                tagalog: "Tanglad Tagalog (Native Lemongrass)",
+                icon: "🌾",
+                season: "Year-round",
+                spacing: "75cm apart",
+                depth: "Plant stalks with roots",
+                germination: "10-14 days from stalks",
+                harvest: "90-120 days, continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, tolerates most soils",
+                container: "35L pot minimum",
+                tips: [
+                    "Local variety, stronger aroma",
+                    "Thicker stalks than Thai varieties",
+                    "Essential in Filipino cooking",
+                    "Mosquito repellent plant",
+                    "Divide clumps every 2-3 years",
+                    "Very low maintenance"
+                ],
+                care: "Minimal watering, no fertilizer needed, very hardy",
+                pests: "Pest-resistant, repels insects naturally",
+                companion: "Plant near patios, windows. Pest deterrent"
+            },
+            {
+                name: "Wansoy Native",
+                tagalog: "Wansoy Tagalog (Native Cilantro)",
+                icon: "🌿",
+                season: "Oct-Mar (cool season)",
+                spacing: "20cm apart",
+                depth: "1cm deep",
+                germination: "7-14 days",
+                harvest: "45-60 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, keep moist",
+                soil: "Rich, well-draining",
+                container: "15L pot minimum",
+                tips: [
+                    "Local variety, stronger flavor",
+                    "More heat-tolerant than imports",
+                    "Essential in Filipino-Chinese dishes",
+                    "Bolts slower in tropical heat",
+                    "Both leaves and seeds (coriander) useful",
+                    "Succession plant every 3 weeks"
+                ],
+                care: "Daily watering, light fertilizer, partial shade helps",
+                pests: "Watch for aphids. Generally pest-resistant",
+                companion: "Plant with tomatoes, peppers. Attracts beneficials"
+            },
+            {
+                name: "Kamote Native Orange",
+                tagalog: "Kamote Kahoy (Orange Sweet Potato)",
+                icon: "🍠",
+                season: "Year-round",
+                spacing: "35cm apart",
+                depth: "Plant vine cuttings",
+                germination: "7-14 days from cuttings",
+                harvest: "100-130 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Loose, well-draining",
+                container: "45L deep pot",
+                tips: [
+                    "Local orange-fleshed variety",
+                    "High in beta-carotene",
+                    "Sweeter than yellow varieties",
+                    "Popular in Filipino desserts",
+                    "Vines and leaves also edible",
+                    "Cure tubers 1 week for sweetness"
+                ],
+                care: "Moderate watering, minimal fertilizer, let vines spread",
+                pests: "Watch for sweet potato weevils. Use raised beds",
+                companion: "Plant with beans, corn. Space for spreading"
+            },
+            {
+                name: "Kamote Native Yellow",
+                tagalog: "Kamote Dilaw (Yellow Sweet Potato)",
+                icon: "🍠",
+                season: "Year-round",
+                spacing: "35cm apart",
+                depth: "Plant vine cuttings",
+                germination: "7-14 days from cuttings",
+                harvest: "95-120 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Loose, well-draining",
+                container: "45L deep pot",
+                tips: [
+                    "Local yellow-fleshed variety",
+                    "Drier texture than orange type",
+                    "Better for savory dishes",
+                    "More drought-tolerant",
+                    "Popular in kamote-cue",
+                    "Traditional lowland variety"
+                ],
+                care: "Moderate watering, minimal fertilizer, space needed",
+                pests: "Watch for rats, weevils. Harvest timely",
+                companion: "Plant with beans. Avoid squash competition"
+            },
+            {
+                name: "Petsay Native",
+                tagalog: "Petsay Tagalog (Native Napa Cabbage)",
+                icon: "🥬",
+                season: "Oct-Mar (cool season)",
+                spacing: "35cm apart",
+                depth: "0.5cm deep",
+                germination: "5-7 days",
+                harvest: "60-80 days",
+                sunlight: "6-8 hours full sun",
+                water: "Daily, consistent moisture",
+                soil: "Rich, well-draining with compost",
+                container: "20L pot minimum",
+                tips: [
+                    "Local variety, looser heads",
+                    "Better heat tolerance than Chinese types",
+                    "Essential in pancit and other dishes",
+                    "Grows better in highland areas",
+                    "Harvest before bolting in heat",
+                    "More flavorful than imports"
+                ],
+                care: "Daily watering, fertilize every 3 weeks, mulch well",
+                pests: "Watch for cabbage worms, aphids. Use BT spray",
+                companion: "Plant with onions, herbs. Avoid strawberries"
+            },
+            {
+                name: "Labanos Pula",
+                tagalog: "Labanos Pula (Red Radish)",
+                icon: "🥕",
+                season: "Year-round (best: cool months)",
+                spacing: "10cm apart",
+                depth: "1cm deep",
+                germination: "4-6 days",
+                harvest: "25-35 days",
+                sunlight: "4-6 hours partial sun",
+                water: "Every 2 days",
+                soil: "Loose, well-draining",
+                container: "20cm deep pot",
+                tips: [
+                    "Red-skinned Filipino variety",
+                    "White flesh, mild flavor",
+                    "Used in pickles and fresh salads",
+                    "Faster growing than white radish",
+                    "Both roots and greens edible",
+                    "Good for succession planting"
+                ],
+                care: "Keep soil moist, thin seedlings early, harvest promptly",
+                pests: "Watch for flea beetles. Use row covers",
+                companion: "Plant with lettuce, carrots. Good companion"
+            },
+            {
+                name: "Sibuyas Tagalog",
+                tagalog: "Sibuyas Tagalog (Native Red Onion)",
+                icon: "🧅",
+                season: "Oct-Feb (cool season)",
+                spacing: "12-15cm apart",
+                depth: "Plant sets or transplants",
+                germination: "Plant bulblets or transplants",
+                harvest: "100-130 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days, reduce before harvest",
+                soil: "Loose, well-draining, pH 6.0-7.0",
+                container: "25cm deep pot",
+                tips: [
+                    "Local red onion variety",
+                    "Smaller, more pungent bulbs",
+                    "Better adapted to lowland heat",
+                    "Essential in Filipino cooking",
+                    "Cure bulbs 2-3 weeks after harvest",
+                    "Stronger flavor than white onions"
+                ],
+                care: "Regular watering, light fertilizer, keep weed-free",
+                pests: "Watch for thrips, maggots. Use clean sets",
+                companion: "Plant with carrots, tomatoes. Pest repellent"
+            },
+            {
+                name: "Bawang Native",
+                tagalog: "Bawang Tagalog (Native Garlic)",
+                icon: "🧄",
+                season: "Oct-Jan (cool season)",
+                spacing: "10cm apart",
+                depth: "3-5cm deep, pointy end up",
+                germination: "14-21 days",
+                harvest: "140-160 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days",
+                soil: "Loose, well-draining, rich",
+                container: "25cm deep pot",
+                tips: [
+                    "Local variety, smaller cloves",
+                    "More pungent than Chinese garlic",
+                    "Pink-skinned when cured",
+                    "Better storage qualities",
+                    "Remove scapes for bigger bulbs",
+                    "Traditional Ilocano variety"
+                ],
+                care: "Moderate watering, mulch well, stop water before harvest",
+                pests: "Generally pest-resistant, very hardy",
+                companion: "Plant with roses, fruit trees. Pest repellent"
+            },
+            {
+                name: "Mais Bigas",
+                tagalog: "Mais Bigas (Glutinous Corn)",
+                icon: "🌽",
+                season: "Year-round (best: dry season)",
+                spacing: "30cm apart in blocks",
+                depth: "3-5cm deep",
+                germination: "7-10 days",
+                harvest: "85-100 days",
+                sunlight: "8+ hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "Not ideal, needs blocks",
+                tips: [
+                    "Sticky/waxy corn variety",
+                    "White kernels, glutinous texture",
+                    "Popular for suman and other kakanin",
+                    "Harvest when kernels are soft-dough stage",
+                    "Plant in blocks for good pollination",
+                    "Traditional Filipino variety"
+                ],
+                care: "Deep watering, fertilize when knee-high, hill soil",
+                pests: "Watch for corn borers, birds. Use netting",
+                companion: "Plant with beans, squash. Three sisters"
+            },
+            {
+                name: "Balatong",
+                tagalog: "Balatong (Mung Bean for Grain)",
+                icon: "🫛",
+                season: "Year-round (best: dry season)",
+                spacing: "15cm apart",
+                depth: "3cm deep",
+                germination: "5-7 days",
+                harvest: "65-80 days for dry beans",
+                sunlight: "6-8 hours full sun",
+                water: "Every 3-4 days",
+                soil: "Well-draining, tolerates poor soil",
+                container: "20L pot minimum",
+                tips: [
+                    "Grown for mature dry beans",
+                    "Essential for ginisang munggo",
+                    "Nitrogen-fixing legume",
+                    "Harvest when pods are brown and dry",
+                    "Can also sprout for togue",
+                    "Very easy to grow"
+                ],
+                care: "Minimal watering, no fertilizer needed, very hardy",
+                pests: "Watch for pod borers late season. Generally hardy",
+                companion: "Plant with corn, eggplant. Soil improver"
+            },
+            {
+                name: "Kabute Paddy Straw",
+                tagalog: "Kabute (Paddy Straw Mushroom)",
+                icon: "🍄",
+                season: "Year-round (best: wet season)",
+                spacing: "Grow on rice straw beds",
+                depth: "Inoculated straw substrate",
+                germination: "Spawn run 10-15 days",
+                harvest: "7-10 days after pinning",
+                sunlight: "Indirect light, shaded area",
+                water: "Mist 2-3 times daily",
+                soil: "Rice straw substrate, not soil",
+                container: "Plastic bags or raised beds",
+                tips: [
+                    "Popular Filipino mushroom",
+                    "Grows on rice straw substrate",
+                    "Needs high humidity and warmth",
+                    "Harvest when eggs just opening",
+                    "Multiple flushes possible",
+                    "Requires spawn/culture to start"
+                ],
+                care: "Keep humid, mist regularly, maintain 28-35°C temperature",
+                pests: "Watch for mold contamination. Keep clean",
+                companion: "Not applicable for mushroom cultivation"
+            },
+            {
+                name: "Kamias",
+                tagalog: "Kamias (Bilimbi Tree)",
+                icon: "🫒",
+                season: "Year-round (plant seedlings)",
+                spacing: "5-6m apart",
+                depth: "Plant seedlings at soil level",
+                germination: "Plant from seedlings",
+                harvest: "3-4 years, then continuous",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Well-draining, slightly acidic",
+                container: "Not for containers, medium tree",
+                tips: [
+                    "Sour fruit tree, unique Filipino ingredient",
+                    "Fruits grow on trunk and branches",
+                    "Used in sinigang, pickles, and cleaning",
+                    "Tolerates urban conditions well",
+                    "Can fruit twice yearly",
+                    "Low maintenance once established"
+                ],
+                care: "Regular watering when young, minimal care when mature",
+                pests: "Generally pest-free. Very hardy tree",
+                companion: "Plant away from vegetables. Provides light shade"
+            },
+            {
+                name: "Santol Leaves",
+                tagalog: "Dahon ng Santol",
+                icon: "🍃",
+                season: "Year-round (from santol trees)",
+                spacing: "Plant santol 8-10m apart",
+                depth: "Plant from seedlings",
+                germination: "From established trees",
+                harvest: "Young leaves continuously",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days when young",
+                soil: "Well-draining",
+                container: "Not for containers, large tree",
+                tips: [
+                    "Young santol leaves are edible",
+                    "Sour flavor, used in soups",
+                    "Pick tender young leaves only",
+                    "Traditional ingredient in sinigang",
+                    "Don't overharvest from young trees",
+                    "Tree takes 5-7 years to fruit"
+                ],
+                care: "Care for santol tree, harvest leaves sparingly",
+                pests: "Generally pest-free tree",
+                companion: "Large tree, plant away from gardens"
+            },
+            {
+                name: "Alogbati Native",
+                tagalog: "Alogbati Tagalog (Native Basella)",
+                icon: "🥬",
+                season: "Year-round",
+                spacing: "35cm apart",
+                depth: "1cm deep or plant cuttings",
+                germination: "7-10 days",
+                harvest: "35-45 days, continuous",
+                sunlight: "4-6 hours partial sun",
+                water: "Daily, needs moisture",
+                soil: "Rich, moist, well-draining",
+                container: "20L pot with trellis",
+                tips: [
+                    "Local variety, darker green leaves",
+                    "More heat-tolerant than hybrids",
+                    "Climbing vine, needs support",
+                    "Harvest young tips and leaves",
+                    "Traditional Filipino vegetable",
+                    "Easy from cuttings or seeds"
+                ],
+                care: "Daily watering, monthly fertilizer, provide trellis",
+                pests: "Generally pest-free. Very hardy",
+                companion: "Plant with beans, corn. Good shade crop"
+            },
+            {
+                name: "Kundol Native",
+                tagalog: "Kundol Tagalog (Small Winter Melon)",
+                icon: "🍈",
+                season: "Year-round (best: dry season)",
+                spacing: "150cm apart",
+                depth: "2cm deep",
+                germination: "7-10 days",
+                harvest: "85-110 days",
+                sunlight: "6-8 hours full sun",
+                water: "Every 2-3 days",
+                soil: "Rich, well-draining",
+                container: "Not for containers, large vine",
+                tips: [
+                    "Smaller local variety, 3-6kg fruits",
+                    "Round shape, white waxy coating",
+                    "Easier to handle than large kondol",
+                    "Used in soups and sweets",
+                    "Better for home gardens",
+                    "Stores for 2-3 months"
+                ],
+                care: "Regular watering, monthly fertilizer, mulch heavily",
+                pests: "Watch for fruit flies. Use protective bags",
+                companion: "Plant with radish. Needs space"
+            }
+        ];
+
+        const modal = document.getElementById('modal');
+        const closeBtn = document.querySelector('.close');
+        const seedGrid = document.getElementById('seedGrid');
+
+        seeds.forEach(seed => {
+            const card = document.createElement('div');
+            card.className = 'seed-card';
+            card.innerHTML = `
+                <div class="seed-icon">${seed.icon}</div>
+                <div class="seed-name">${seed.name}</div>
+                <div class="seed-tagalog">${seed.tagalog}</div>
+            `;
+            card.onclick = () => showModal(seed);
+            seedGrid.appendChild(card);
+        });
+
+        function showModal(seed) {
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <h2>${seed.icon} ${seed.name} (${seed.tagalog})</h2>
+                
+                <h3>📅 Planting Season</h3>
+                <p>${seed.season}</p>
+                
+                <h3>🌱 Planting Guide</h3>
+                <ul>
+                    <li><strong>Spacing:</strong> ${seed.spacing}</li>
+                    <li><strong>Depth:</strong> ${seed.depth}</li>
+                    <li><strong>Germination:</strong> ${seed.germination}</li>
+                    <li><strong>Harvest:</strong> ${seed.harvest}</li>
+                </ul>
+                
+                <h3>☀️ Growing Requirements</h3>
+                <ul>
+                    <li><strong>Sunlight:</strong> ${seed.sunlight}</li>
+                    <li><strong>Water:</strong> ${seed.water}</li>
+                    <li><strong>Soil:</strong> ${seed.soil}</li>
+                    <li><strong>Container:</strong> ${seed.container}</li>
+                </ul>
+                
+                <h3>💡 Beginner Tips</h3>
+                <ul>
+                    ${seed.tips.map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+                
+                <div class="tip-box">
+                    <strong>✅ Care Instructions:</strong><br>
+                    ${seed.care}
+                </div>
+                
+                <div class="tip-box">
+                    <strong>🐛 Pest Management:</strong><br>
+                    ${seed.pests}
+                </div>
+                
+                <div class="tip-box">
+                    <strong>🌿 Companion Planting:</strong><br>
+                    ${seed.companion}
+                </div>
+            `;
+            modal.style.display = 'block';
+        }
+
+        closeBtn.onclick = () => modal.style.display = 'none';
+        window.onclick = (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    </script>
+</body>
+</html>
